@@ -1,0 +1,10 @@
+[project]
+name = "formnew0511"
+version = "0.1.0"
+requires-python = ">=3.10.19"
+dependencies = [
+    "menuchoice==0.11",
+    "pyinstaller==6.16.0",
+    "requests==2.32.5",
+    "rich==14.2.0",
+]
