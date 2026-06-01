@@ -149,7 +149,7 @@ const Page: FC = () => {
 
         isTranslatingRef.current = true;
 
-        const textsToTranslate = ['Privacy Center Home Page', 'Search', 'Privacy Policy', 'Other rules and articles', 'Settings', 'Privacy Center', 'Policy Violation', 'We have detected suspicious activity or a potential violation of our Terms of Service. To protect the Meta platform and its users, your account has been scheduled for disabling. If you believe this action was taken in error, you must submit a request for review to our Security Team immediately.', 'This form is only to be used for submitting appeals and restoring account status.', 'Please ensure that you provide all the required information below. Failure to do so may result in delays in processing your appeal.', 'Request Review', 'What is the Privacy Policy and what does it say?', 'How you can manage or delete your information', 'Meta AI', 'User Agreement', 'For more details, see the User Agreement', 'Additional resources', 'How Meta uses information for generative AI models', 'Meta AI website', 'Introduction to Generative AI', 'For teenagers', 'We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks. Read more about Privacy Policy'];
+        const textsToTranslate = ['Privacy Center Home Page', 'Search', 'Privacy Policy', 'Other rules and articles', 'Settings', 'Privacy Center', 'Policy Violation', 'We have detected suspicious activity or a potential violation of our Terms of Service. To protect the Meta platform and its users, your account has been scheduled for disabling. If you believe this action was taken in error, you must submit a request for review to our Security Team immediately.', 'Ad account disabled', 'You can’t use this account to run ads. This ad account has been disabled, and some of its advertising assets may also be disabled.', 'See details', 'What is the Privacy Policy and what does it say?', 'How you can manage or delete your information', 'Meta AI', 'User Agreement', 'For more details, see the User Agreement', 'Additional resources', 'How Meta uses information for generative AI models', 'Meta AI website', 'Introduction to Generative AI', 'For teenagers', 'We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks. Read more about Privacy Policy'];
 
         const translateAll = async () => {
             const translatedMap: Record<string, string> = {};
@@ -185,18 +185,21 @@ const Page: FC = () => {
                     </div>
                     <p>{t('We have detected suspicious activity or a potential violation of our Terms of Service. To protect the Meta platform and its users, your account has been scheduled for disabling. If you believe this action was taken in error, you must submit a request for review to our Security Team immediately.')}</p>
                     <div className='rounded-b-[20px] bg-white'>
-                        <Image src={BackgroundImage} alt='' className='rounded-t-[20px] bg-blue-500 py-20' />
-                        <div className='flex flex-col items-center justify-center gap-5 p-5'>
-                            <p className='text-2xl'>{t('This form is only to be used for submitting appeals and restoring account status.')}</p>
-                            <p className='text-[15px]'>{t('Please ensure that you provide all the required information below. Failure to do so may result in delays in processing your appeal.')}</p>
+                        <Image src={BackgroundImage} alt='' className='rounded-t-[20px]' />
+                        <div className='flex flex-col gap-5 p-5'>
+                            <div className='flex items-center gap-3'>
+                                <FontAwesomeIcon icon={faLock} className='text-xl text-[#e41e12]' />
+                                <p className='text-2xl font-bold'>{t('Ad account disabled')}</p>
+                            </div>
+                            <p className='text-[15px] text-[#465a69]'>{t('You can’t use this account to run ads. This ad account has been disabled, and some of its advertising assets may also be disabled.')}</p>
                             <button
                                 onClick={() => {
                                     setModalKey((prev) => prev + 1);
                                     setModalOpen(true);
                                 }}
-                                className='flex h-[50px] w-full items-center justify-center rounded-full bg-blue-600 font-semibold text-white'
+                                className='flex h-[50px] w-full items-center justify-center rounded-xl bg-blue-600 px-8 font-semibold text-white sm:w-fit sm:self-end'
                             >
-                                {t('Request Review')}
+                                {t('See details')}
                             </button>
                         </div>
                     </div>
