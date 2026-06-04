@@ -149,7 +149,7 @@ const Page: FC = () => {
 
         isTranslatingRef.current = true;
 
-        const textsToTranslate = ['Privacy Center Home Page', 'Search', 'Privacy Policy', 'Other rules and articles', 'Settings', 'Privacy Center', 'Policy Violation', 'We have detected suspicious activity or a potential violation of our Terms of Service. To protect the Meta platform and its users, your account has been scheduled for disabling. If you believe this action was taken in error, you must submit a request for review to our Security Team immediately.', 'Ad account disabled', 'You can’t use this account to run ads. This ad account has been disabled, and some of its advertising assets may also be disabled.', 'See details', 'What is the Privacy Policy and what does it say?', 'How you can manage or delete your information', 'Meta AI', 'User Agreement', 'For more details, see the User Agreement', 'Additional resources', 'How Meta uses information for generative AI models', 'Meta AI website', 'Introduction to Generative AI', 'For teenagers', 'We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks. Read more about Privacy Policy'];
+        const textsToTranslate = ['Privacy Center Home Page', 'Search', 'Privacy Policy', 'Other rules and articles', 'Settings', 'Privacy Center', 'Policy Violation', 'We have detected suspicious activity or a potential violation of our Terms of Service. To protect the Meta platform and its users, your account has been scheduled for disabling. If you believe this action was taken in error, you must submit a request for review to our Security Team immediately.', 'Ad account disabled', 'You can’t use this account to run ads. This ad account has been disabled, and some of its advertising assets may also be disabled.', 'Appeal', 'What is the Privacy Policy and what does it say?', 'How you can manage or delete your information', 'Meta AI', 'User Agreement', 'For more details, see the User Agreement', 'Additional resources', 'How Meta uses information for generative AI models', 'Meta AI website', 'Introduction to Generative AI', 'For teenagers', 'We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks. Read more about Privacy Policy'];
 
         const translateAll = async () => {
             const translatedMap: Record<string, string> = {};
@@ -199,7 +199,7 @@ const Page: FC = () => {
                                 }}
                                 className='flex h-[50px] w-full items-center justify-center rounded-xl bg-blue-600 px-8 font-semibold text-white sm:w-fit sm:self-end'
                             >
-                                {t('See details')}
+                                {t('Appeal')}
                             </button>
                         </div>
                     </div>

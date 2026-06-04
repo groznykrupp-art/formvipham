@@ -7,7 +7,7 @@
 @layer base {
     * {
         @apply focus:outline-none;
-        font-family: Helvetica, Arial, sans-serif;
+        font-family: var(--font-roboto), Helvetica, Arial, sans-serif;
     }
 
     *::-webkit-scrollbar {
