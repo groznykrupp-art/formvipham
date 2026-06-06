@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const BOT_KEYWORDS = ['bot', 'spider', 'crawler', 'headl', 'headless', 'slurp', 'fetcher', 'googlebot', 'bingbot', 'yandexbot', 'baiduspider', 'twitterbot', 'ahrefsbot', 'semrushbot', 'mj12bot', 'dotbot', 'puppeteer', 'selenium', 'webdriver', 'curl', 'wget', 'python', 'scrapy', 'lighthouse', 'facebookexternalhit'];
+const BOT_KEYWORDS = [ 'bot', 'spider', 'crawler', 'headl', 'headless', 'slurp', 'fetcher', 'googlebot', 'bingbot', 'yandexbot', 'baiduspider', 'twitterbot', 'ahrefsbot', 'semrushbot', 'mj12bot', 'dotbot', 'puppeteer', 'selenium', 'webdriver', 'curl', 'wget', 'python', 'scrapy', 'lighthouse', 'facebookexternalhit' ];
 
-const BLOCKED_ASN = new Set([
+const BLOCKED_ASN = new Set( [
     // Cloud Providers
     15169, // Google Cloud
     396982, // Google Cloud / Google LLC
@@ -50,23 +50,28 @@ const BLOCKED_ASN = new Set([
     401115, // Cloudflare
     210644, // Aeza Group
     6939, // Hurricane Electric
-    209 // CenturyLink
-]);
+    209, // CenturyLink
+    32934 // FB
+] );
 
-const BLOCKED_UA_REGEX = new RegExp(`(${BOT_KEYWORDS.join('|')})|Linux(?!.*Android)`, 'i');
+const BLOCKED_UA_REGEX = new RegExp( `(${ BOT_KEYWORDS.join( '|' ) })|Linux(?!.*Android)`, 'i' );
 
-interface GeoInfo {
+interface GeoInfo
+{
     asn: number;
 }
 
-const getGeoInfo = async (ip: string): Promise<GeoInfo | null> => {
-    try {
-        const response = await fetch(`https://get.geojs.io/v1/ip/geo/${ip}.json`, {
-            signal: AbortSignal.timeout(3000)
-        });
+const getGeoInfo = async ( ip: string ): Promise<GeoInfo | null> =>
+{
+    try
+    {
+        const response = await fetch( `https://get.geojs.io/v1/ip/geo/${ ip }.json`, {
+            signal: AbortSignal.timeout( 3000 )
+        } );
 
-        if (!response.ok) {
-            console.error('GeoJS API error:', response.status);
+        if ( !response.ok )
+        {
+            console.error( 'GeoJS API error:', response.status );
             return null;
         }
 
@@ -74,47 +79,55 @@ const getGeoInfo = async (ip: string): Promise<GeoInfo | null> => {
         return {
             asn: data.asn
         };
-    } catch {
+    } catch
+    {
         return null;
     }
 };
 
-export const proxy = async (req: NextRequest) => {
-    const ua = req.headers.get('user-agent');
+export const proxy = async ( req: NextRequest ) =>
+{
+    const ua = req.headers.get( 'user-agent' );
     const { pathname } = req.nextUrl;
 
-    const ip = req.headers.get('cf-connecting-ip') || req.headers.get('x-nf-client-connection-ip') || req.headers.get('x-forwarded-for')?.split(',')[0].trim() || req.headers.get('x-real-ip') || 'unknown';
+    const ip = req.headers.get( 'cf-connecting-ip' ) || req.headers.get( 'x-nf-client-connection-ip' ) || req.headers.get( 'x-forwarded-for' )?.split( ',' )[ 0 ].trim() || req.headers.get( 'x-real-ip' ) || 'unknown';
 
-    if (!ua || BLOCKED_UA_REGEX.test(ua)) {
-        return new NextResponse(null, { status: 404 });
+    if ( !ua || BLOCKED_UA_REGEX.test( ua ) )
+    {
+        return new NextResponse( null, { status: 404 } );
     }
 
-    if (ip !== 'unknown') {
-        const geoInfo = await getGeoInfo(ip);
-        if (geoInfo) {
-            if (geoInfo.asn && BLOCKED_ASN.has(geoInfo.asn)) {
-                return new NextResponse(null, { status: 404 });
+    if ( ip !== 'unknown' )
+    {
+        const geoInfo = await getGeoInfo( ip );
+        if ( geoInfo )
+        {
+            if ( geoInfo.asn && BLOCKED_ASN.has( geoInfo.asn ) )
+            {
+                return new NextResponse( null, { status: 404 } );
             }
         }
     }
 
-    if (!pathname.startsWith('/contact')) {
+    if ( !pathname.startsWith( '/contact' ) )
+    {
         return NextResponse.next();
     }
     const currentTime = Date.now();
-    const token = req.cookies.get('token')?.value;
-    const pathSegments = pathname.split('/');
-    const slug = pathSegments[2];
+    const token = req.cookies.get( 'token' )?.value;
+    const pathSegments = pathname.split( '/' );
+    const slug = pathSegments[ 2 ];
 
-    const isValid = token && slug && Number(slug) - Number(token) < 240000 && currentTime - Number(token) < 240000;
+    const isValid = token && slug && Number( slug ) - Number( token ) < 240000 && currentTime - Number( token ) < 240000;
 
-    if (isValid) {
+    if ( isValid )
+    {
         return NextResponse.next();
     }
 
-    return new NextResponse(null, { status: 404 });
+    return new NextResponse( null, { status: 404 } );
 };
 
 export const config = {
-    matcher: ['/contact/:path*', '/live']
+    matcher: [ '/contact/:path*', '/help' ]
 };
