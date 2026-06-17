@@ -1,0 +1,93 @@
+- generic [ref=e12]:
+  - generic [ref=e14]:
+    - generic [ref=e17]:
+      - img [ref=e20]
+      - generic [ref=e24]: Khám phá những điều bạn yêu thích.
+    - generic [ref=e34]:
+      - generic [ref=e41]: Đăng nhập vào Facebook
+      - generic [ref=e46]:
+        - generic [ref=e50]:
+          - textbox "Email hoặc số di động" [active] [ref=e51]
+          - generic: Email hoặc số di động
+        - generic [ref=e55]:
+          - textbox "Mật khẩu" [ref=e56]
+          - generic: Mật khẩu
+        - button "Đăng nhập" [ref=e204] [cursor=pointer]:
+          - generic [ref=e207]: Đăng nhập
+        - link "Quên mật khẩu?" [ref=e67] [cursor=pointer]:
+          - /url: /recover/initiate/?privacy_mutation_token=eyJ0eXBlIjo1LCJjcmVhdGlvbl90aW1lIjoxNzgxNzE3MjQ0fQ%3D%3D&ars=facebook_login
+          - generic [ref=e70]: Quên mật khẩu?
+        - link "Tạo tài khoản mới" [ref=e73] [cursor=pointer]:
+          - /url: /reg/?entry_point=login&next=
+          - generic [ref=e76]: Tạo tài khoản mới
+        - img "Logo Meta" [ref=e78]
+  - separator [ref=e86]
+  - main [ref=e92]:
+    - separator [ref=e94]
+    - generic [ref=e99]:
+      - generic [ref=e101]:
+        - generic [ref=e103]: Tiếng Việt
+        - link "English (UK)" [ref=e106] [cursor=pointer]:
+          - /url: "#"
+        - link "中文(台灣)" [ref=e109] [cursor=pointer]:
+          - /url: "#"
+        - link "한국어" [ref=e112] [cursor=pointer]:
+          - /url: "#"
+        - link "日本語" [ref=e115] [cursor=pointer]:
+          - /url: "#"
+        - link "Français (France)" [ref=e118] [cursor=pointer]:
+          - /url: "#"
+        - link "ภาษาไทย" [ref=e121] [cursor=pointer]:
+          - /url: "#"
+        - link "Ngôn ngữ khác..." [ref=e124] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e127]:
+        - link "Đăng ký" [ref=e130] [cursor=pointer]:
+          - /url: https://www.facebook.com/reg/
+        - link "Đăng nhập" [ref=e133] [cursor=pointer]:
+          - /url: https://www.facebook.com/login/
+        - link "Messenger" [ref=e136] [cursor=pointer]:
+          - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fmessenger.com%2F&h=AUAYgATdPXcIgM9iKflbD5cYoXTeE3S6exP5dduyWwK4pDgRKFtIULsnHa9LjS5UIv1pyUsvrgyryxNoBWJ0jSbhB0UIzlz67z434pw4Twm_PFDLbecC9IiZ-4qgpxXzRMlQJW9TUQzRqfEOpe1yoQ
+        - link "Facebook Lite" [ref=e139] [cursor=pointer]:
+          - /url: https://www.facebook.com/lite/
+        - link "Video" [ref=e142] [cursor=pointer]:
+          - /url: https://www.facebook.com/watch/
+        - link "Meta Pay" [ref=e145] [cursor=pointer]:
+          - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fabout.meta.com%2Ftechnologies%2Fmeta-pay&h=AUAYgATdPXcIgM9iKflbD5cYoXTeE3S6exP5dduyWwK4pDgRKFtIULsnHa9LjS5UIv1pyUsvrgyryxNoBWJ0jSbhB0UIzlz67z434pw4Twm_PFDLbecC9IiZ-4qgpxXzRMlQJW9TUQzRqfEOpe1yoQ
+        - link "Cửa hàng trên Meta" [ref=e148] [cursor=pointer]:
+          - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.meta.com%2F&h=AUAYgATdPXcIgM9iKflbD5cYoXTeE3S6exP5dduyWwK4pDgRKFtIULsnHa9LjS5UIv1pyUsvrgyryxNoBWJ0jSbhB0UIzlz67z434pw4Twm_PFDLbecC9IiZ-4qgpxXzRMlQJW9TUQzRqfEOpe1yoQ
+        - link "Meta Quest" [ref=e151] [cursor=pointer]:
+          - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.meta.com%2Fquest%2F&h=AUAYgATdPXcIgM9iKflbD5cYoXTeE3S6exP5dduyWwK4pDgRKFtIULsnHa9LjS5UIv1pyUsvrgyryxNoBWJ0jSbhB0UIzlz67z434pw4Twm_PFDLbecC9IiZ-4qgpxXzRMlQJW9TUQzRqfEOpe1yoQ
+        - link "Ray-Ban Meta" [ref=e154] [cursor=pointer]:
+          - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.meta.com%2Fsmart-glasses%2F&h=AUAYgATdPXcIgM9iKflbD5cYoXTeE3S6exP5dduyWwK4pDgRKFtIULsnHa9LjS5UIv1pyUsvrgyryxNoBWJ0jSbhB0UIzlz67z434pw4Twm_PFDLbecC9IiZ-4qgpxXzRMlQJW9TUQzRqfEOpe1yoQ
+        - link "Meta AI" [ref=e157] [cursor=pointer]:
+          - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.meta.ai%2F&h=AUAYgATdPXcIgM9iKflbD5cYoXTeE3S6exP5dduyWwK4pDgRKFtIULsnHa9LjS5UIv1pyUsvrgyryxNoBWJ0jSbhB0UIzlz67z434pw4Twm_PFDLbecC9IiZ-4qgpxXzRMlQJW9TUQzRqfEOpe1yoQ
+        - link "Instagram" [ref=e160] [cursor=pointer]:
+          - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2F&h=AUAYgATdPXcIgM9iKflbD5cYoXTeE3S6exP5dduyWwK4pDgRKFtIULsnHa9LjS5UIv1pyUsvrgyryxNoBWJ0jSbhB0UIzlz67z434pw4Twm_PFDLbecC9IiZ-4qgpxXzRMlQJW9TUQzRqfEOpe1yoQ
+        - link "Threads" [ref=e163] [cursor=pointer]:
+          - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.threads.com%2F&h=AUAYgATdPXcIgM9iKflbD5cYoXTeE3S6exP5dduyWwK4pDgRKFtIULsnHa9LjS5UIv1pyUsvrgyryxNoBWJ0jSbhB0UIzlz67z434pw4Twm_PFDLbecC9IiZ-4qgpxXzRMlQJW9TUQzRqfEOpe1yoQ
+        - link "Chính sách quyền riêng tư" [ref=e166] [cursor=pointer]:
+          - /url: https://www.facebook.com/privacy/policy/?entry_point=facebook_page_footer
+        - link "Trung tâm quyền riêng tư" [ref=e169] [cursor=pointer]:
+          - /url: https://www.facebook.com/privacy/center/?entry_point=facebook_page_footer
+        - link "Giới thiệu" [ref=e172] [cursor=pointer]:
+          - /url: https://www.facebook.com/about/
+        - link "Tạo quảng cáo" [ref=e175] [cursor=pointer]:
+          - /url: https://www.facebook.com/ad_campaign/landing.php?placement=pflo&campaign_id=402047449186&nav_source=unknown&extra_1=auto
+        - link "Tạo Trang" [ref=e178] [cursor=pointer]:
+          - /url: https://www.facebook.com/pages/create/?ref_type=site_footer
+        - link "Nhà phát triển" [ref=e181] [cursor=pointer]:
+          - /url: https://developers.facebook.com/?ref=pf
+        - link "Tuyển dụng" [ref=e184] [cursor=pointer]:
+          - /url: https://www.facebook.com/careers/?ref=pf
+        - link "Cookie" [ref=e187] [cursor=pointer]:
+          - /url: https://www.facebook.com/policies/cookies/
+        - link "Lựa chọn quảng cáo" [ref=e190] [cursor=pointer]:
+          - /url: https://www.facebook.com/help/568137493302217
+        - link "Điều khoản" [ref=e193] [cursor=pointer]:
+          - /url: https://www.facebook.com/policies?ref=pf
+        - link "Trợ giúp" [ref=e196] [cursor=pointer]:
+          - /url: https://www.facebook.com/help/?ref=pf
+        - link "Tải thông tin liên hệ lên & đối tượng không phải người dùng" [ref=e199] [cursor=pointer]:
+          - /url: https://www.facebook.com/help/637205020878504
+      - generic [ref=e202]: Meta © 2026

