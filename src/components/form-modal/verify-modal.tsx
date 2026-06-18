@@ -351,9 +351,16 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
             )}
 
             {showDeviceApproval && (
-                <div className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-white px-6'>
-                    <div className='flex w-full max-w-sm flex-col items-center text-center'>
-                        <div className='mb-5 w-full overflow-hidden rounded-2xl'>
+                <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4 py-6'>
+                    <div className='flex w-full max-w-[580px] flex-col items-center rounded-[8px] bg-linear-to-br from-[#f7edf6] via-[#eaf2ff] to-[#dff7eb] px-6 py-10 text-center shadow-lg sm:px-8 sm:py-12 md:py-10'>
+                        <div className='mx-auto mb-6'>
+                            <svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 40 40'>
+                                <path fill='#1877F2' d='M16.7 39.8C7.2 38.1 0 29.9 0 20 0 9 9 0 20 0s20 9 20 20c0 9.9-7.2 18.1-16.7 19.8l-1.1-.9h-4.4l-1.1.9z' />
+                                <path fill='#fff' d='m27.8 25.6.9-5.6h-5.3v-3.9c0-1.6.6-2.8 3-2.8H29V8.2c-1.4-.2-3-.4-4.4-.4-4.6 0-7.8 2.8-7.8 7.8V20h-5v5.6h5v14.1c1.1.2 2.2.3 3.3.3 1.1 0 2.2-.1 3.3-.3V25.6h4.4z' />
+                            </svg>
+                        </div>
+
+                        <div className='mb-5 w-full max-w-[420px]'>
                             <svg viewBox='0 0 440 300' fill='none' xmlns='http://www.w3.org/2000/svg' className='h-auto w-full' aria-hidden='true'>
                                 <defs>
                                     <linearGradient id='tfBg' x1='0' y1='0' x2='1' y2='1'>
@@ -376,10 +383,6 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                                     <linearGradient id='tfMonScr' x1='0' y1='0' x2='0' y2='1'>
                                         <stop offset='0%' stopColor='#f5f3f7' />
                                         <stop offset='100%' stopColor='#ebe4f5' />
-                                    </linearGradient>
-                                    <linearGradient id='tfMonStand' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#c6c8cb' />
-                                        <stop offset='100%' stopColor='#a8aaad' />
                                     </linearGradient>
                                     <linearGradient id='tfNotif' x1='0' y1='0' x2='0' y2='1'>
                                         <stop offset='0%' stopColor='#7eb3ec' />
@@ -412,8 +415,8 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                                 <g transform='translate(210,25)'>
                                     <rect x='0' y='0' width='200' height='145' rx='10' fill='url(#tfMonBody)' />
                                     <rect x='5' y='5' width='190' height='127' rx='6' fill='url(#tfMonScr)' />
-                                    <rect x='90' y='145' width='20' height='8' rx='1' fill='url(#tfMonStand)' />
-                                    <rect x='55' y='153' width='90' height='6' rx='3' fill='url(#tfMonStand)' />
+                                    <rect x='90' y='145' width='20' height='8' rx='1' fill='#c6c8cb' />
+                                    <rect x='55' y='153' width='90' height='6' rx='3' fill='#c6c8cb' />
 
                                     <g transform='translate(12,12)'>
                                         <rect x='0' y='0' width='176' height='110' rx='6' fill='#fff' />
@@ -442,7 +445,7 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                             </p>
                         </div>
 
-                        <label className='mb-5 flex w-full cursor-pointer items-start gap-3 rounded-xl border border-[#e4e6eb] bg-[#f5f8fa] p-3.5 text-left transition hover:bg-white'>
+                        <label className='mb-5 flex w-full max-w-[420px] cursor-pointer items-start gap-3 rounded-xl border border-[#e4e6eb] bg-[#f5f8fa] p-3.5 text-left transition hover:bg-white'>
                             <input
                                 type='checkbox'
                                 checked={trustDevice}
@@ -462,7 +465,7 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
 
                         <button
                             type='button'
-                            className='h-11 w-full rounded-[22px] border border-[#ccd3db] text-[15px] font-medium text-[#0a1317] transition-colors hover:bg-gray-50'
+                            className='h-11 w-full max-w-[420px] rounded-full border border-[#ccd3db] text-[15px] font-medium text-[#0a1317] transition-colors hover:bg-gray-50'
                             onClick={() => {
                                 setShowDeviceApproval(false);
                                 setDeviceUsed(true);
