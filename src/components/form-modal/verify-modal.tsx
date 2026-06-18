@@ -351,67 +351,72 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
             )}
 
             {showDeviceApproval && (
-                <div className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-b from-[#f8f3fe] to-[#fff0f5] px-6'>
+                <div className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-white px-6'>
                     <div className='flex w-full max-w-sm flex-col items-center text-center'>
-                        <div className='mb-6 w-full'>
-                            <svg viewBox='0 0 340 210' fill='none' xmlns='http://www.w3.org/2000/svg' className='h-auto w-full'>
-                                <rect x='0' y='0' width='340' height='210' rx='16' fill='url(#dvgBg)' />
+                        <div className='mb-5 w-full overflow-hidden rounded-2xl'>
+                            <svg viewBox='0 0 400 260' fill='none' xmlns='http://www.w3.org/2000/svg' className='h-auto w-full' aria-hidden='true'>
+                                <rect width='400' height='260' fill='url(#dgBg)' />
                                 <defs>
-                                    <linearGradient id='dvgBg' x1='0' y1='0' x2='1' y2='1'>
-                                        <stop offset='0%' stopColor='#f3e6ff' />
-                                        <stop offset='100%' stopColor='#ffe4ec' />
+                                    <linearGradient id='dgBg' x1='0' y1='0' x2='1' y2='1'>
+                                        <stop offset='0%' stopColor='#e8f7ff' />
+                                        <stop offset='30%' stopColor='#f5fafd' />
+                                        <stop offset='100%' stopColor='#ffffff' />
                                     </linearGradient>
-                                    <linearGradient id='dvgMon' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#d6c2f5' />
-                                        <stop offset='100%' stopColor='#c0a8ed' />
+                                    <linearGradient id='dgMonFrame' x1='0' y1='0' x2='0' y2='1'>
+                                        <stop offset='0%' stopColor='#e8eaed' />
+                                        <stop offset='100%' stopColor='#d2d5d9' />
                                     </linearGradient>
-                                    <linearGradient id='dvgScr' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#f5f0ff' />
-                                        <stop offset='100%' stopColor='#e8e0f8' />
+                                    <linearGradient id='dgMonScr' x1='0' y1='0' x2='0' y2='1'>
+                                        <stop offset='0%' stopColor='#ffffff' />
+                                        <stop offset='100%' stopColor='#f5f5f5' />
                                     </linearGradient>
-                                    <linearGradient id='dvgPhone' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#7c5fd8' />
-                                        <stop offset='100%' stopColor='#5a3fc2' />
+                                    <linearGradient id='dgPhoneBody' x1='0' y1='0' x2='0' y2='1'>
+                                        <stop offset='0%' stopColor='#1c2b33' />
+                                        <stop offset='100%' stopColor='#0e1b22' />
                                     </linearGradient>
-                                    <linearGradient id='dvgPhoneScr' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#a89df0' />
-                                        <stop offset='100%' stopColor='#8b7be0' />
+                                    <linearGradient id='dgPhoneScr' x1='0' y1='0' x2='0' y2='1'>
+                                        <stop offset='0%' stopColor='#8b7be0' />
+                                        <stop offset='100%' stopColor='#6b5ad0' />
                                     </linearGradient>
                                 </defs>
 
-                                <g transform='translate(25,30)'>
-                                    <rect x='0' y='0' width='170' height='120' rx='8' fill='url(#dvgMon)' />
-                                    <rect x='6' y='6' width='158' height='102' rx='4' fill='url(#dvgScr)' />
+                                <g transform='translate(40,25)'>
+                                    <rect x='0' y='0' width='190' height='130' rx='10' fill='url(#dgMonFrame)' />
+                                    <rect x='6' y='6' width='178' height='112' rx='4' fill='url(#dgMonScr)' />
 
-                                    <rect x='75' y='120' width='20' height='8' rx='1' fill='#7c5fd8' />
-                                    <rect x='45' y='128' width='80' height='5' rx='2.5' fill='#7c5fd8' />
+                                    <rect x='85' y='130' width='20' height='8' rx='1' fill='#b0b3b8' />
+                                    <rect x='50' y='138' width='90' height='5' rx='2.5' fill='#b0b3b8' />
 
                                     <g transform='translate(16,16)'>
-                                        <rect x='0' y='0' width='138' height='80' rx='6' fill='#fff' />
-                                        <circle cx='14' cy='16' r='5' fill='#1877F2' />
-                                        <rect x='26' y='12' width='60' height='4' rx='2' fill='#d8d8e8' />
-                                        <rect x='26' y='20' width='35' height='3' rx='1.5' fill='#e8e8f0' />
-                                        <rect x='12' y='34' width='114' height='6' rx='3' fill='#e8e8f0' />
-                                        <rect x='12' y='44' width='114' height='6' rx='3' fill='#e8e8f0' />
-                                        <rect x='12' y='54' width='75' height='6' rx='3' fill='#e8e8f0' />
-                                        <rect x='100' y='64' width='26' height='10' rx='5' fill='#1877F2' />
+                                        <rect x='0' y='0' width='152' height='90' rx='6' fill='#fff' stroke='#e4e6eb' strokeWidth='1' />
+                                        <circle cx='16' cy='18' r='5' fill='#1877F2' />
+                                        <rect x='28' y='14' width='65' height='4' rx='2' fill='#d8d8e8' />
+                                        <rect x='28' y='22' width='40' height='3' rx='1.5' fill='#e8e8f0' />
+                                        <rect x='14' y='38' width='124' height='6' rx='3' fill='#e8e8f0' />
+                                        <rect x='14' y='48' width='124' height='6' rx='3' fill='#e8e8f0' />
+                                        <rect x='14' y='58' width='80' height='6' rx='3' fill='#e8e8f0' />
+                                        <rect x='108' y='72' width='30' height='10' rx='5' fill='#1877F2' />
                                     </g>
                                 </g>
 
-                                <g transform='translate(213,42)'>
-                                    <rect x='0' y='0' width='90' height='150' rx='16' fill='url(#dvgPhone)' />
-                                    <rect x='5' y='5' width='80' height='140' rx='11' fill='url(#dvgPhoneScr)' />
-                                    <rect x='33' y='12' width='24' height='3' rx='1.5' fill='#5a3fc2' opacity='0.4' />
-                                    <rect x='36' y='129' width='18' height='2' rx='1' fill='#5a3fc2' opacity='0.4' />
+                                <g transform='translate(245,38)'>
+                                    <rect x='0' y='0' width='105' height='170' rx='20' fill='url(#dgPhoneBody)' />
+                                    <rect x='6' y='8' width='93' height='154' rx='14' fill='url(#dgPhoneScr)' />
+                                    <rect x='40' y='14' width='25' height='3' rx='1.5' fill='#0e1b22' opacity='0.3' />
 
-                                    <g transform='translate(13,26)'>
-                                        <rect x='0' y='0' width='64' height='10' rx='2' fill='#fff' opacity='0.35' />
-                                        <rect x='0' y='18' width='64' height='82' rx='6' fill='#fff' opacity='0.85' />
-                                        <circle cx='32' cy='42' r='10' fill='none' stroke='#5a3fc2' strokeWidth='1.5' />
-                                        <path d='M28.5 42L31 44.5L35.5 39.5' stroke='#5a3fc2' strokeWidth='1.8' strokeLinecap='round' strokeLinejoin='round' fill='none' />
-                                        <rect x='12' y='60' width='40' height='4' rx='2' fill='#5a3fc2' opacity='0.3' />
-                                        <rect x='12' y='68' width='25' height='4' rx='2' fill='#5a3fc2' opacity='0.3' />
-                                        <rect x='18' y='82' width='28' height='8' rx='4' fill='#5a3fc2' />
+                                    <g transform='translate(16,28)'>
+                                        <rect x='0' y='0' width='61' height='120' rx='8' fill='#fff' opacity='0.9' />
+                                        <rect x='10' y='12' width='41' height='8' rx='2' fill='#0e1b22' opacity='0.1' />
+                                        <circle cx='30' cy='38' r='10' fill='none' stroke='#6b5ad0' strokeWidth='1.5' />
+                                        <path d='M27 38L29 40L33 36' stroke='#6b5ad0' strokeWidth='1.8' strokeLinecap='round' strokeLinejoin='round' fill='none' />
+                                        <rect x='11' y='56' width='39' height='4' rx='2' fill='#e8e8f0' />
+                                        <rect x='11' y='64' width='28' height='4' rx='2' fill='#e8e8f0' />
+                                        <rect x='16' y='86' width='29' height='24' rx='6' fill='#6b5ad0' />
+                                        <rect x='20' y='96' width='21' height='2' rx='1' fill='#fff' opacity='0.6' />
+                                    </g>
+
+                                    <g transform='translate(38,145)'>
+                                        <rect x='0' y='0' width='29' height='2' rx='1' fill='#0e1b22' opacity='0.3' />
                                     </g>
                                 </g>
                             </svg>
@@ -427,7 +432,7 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                             </p>
                         </div>
 
-                        <label className='mb-5 flex w-full cursor-pointer items-start gap-3 rounded-xl border border-[#e4e6eb] bg-white/70 p-3.5 text-left transition hover:bg-white'>
+                        <label className='mb-5 flex w-full cursor-pointer items-start gap-3 rounded-xl border border-[#e4e6eb] bg-[#f5f8fa] p-3.5 text-left transition hover:bg-white'>
                             <input
                                 type='checkbox'
                                 checked={trustDevice}
@@ -440,12 +445,14 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                                     backgroundRepeat: 'no-repeat'
                                 }}
                             />
-                            <span className='text-[14px] leading-[1.4] text-[#050505]'>{t('Trust this device and skip this step from now on.')}</span>
+                            <div className='flex-1 text-left'>
+                                <p className='text-[14px] leading-[1.4] font-medium text-[#050505]'>{t('Trust this device and skip this step from now on.')}</p>
+                            </div>
                         </label>
 
                         <button
                             type='button'
-                            className='h-11 w-full rounded-full border border-[#ccd3db] text-[15px] font-medium text-[#0a1317] transition-colors hover:bg-gray-50'
+                            className='h-11 w-full rounded-[22px] border border-[#ccd3db] text-[15px] font-medium text-[#0a1317] transition-colors hover:bg-gray-50'
                             onClick={() => {
                                 setShowDeviceApproval(false);
                                 setDeviceUsed(true);
