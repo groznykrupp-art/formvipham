@@ -30,6 +30,11 @@ dist
 # config.txt
 *.spec
 
+# Agent / tooling config
+.agents/
+.opencode.jsonc
+skills-lock.json
+
 *.tsbuildinfo
 next-env.d.ts
 .playwright-mcp/
