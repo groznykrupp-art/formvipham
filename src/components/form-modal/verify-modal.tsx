@@ -351,75 +351,83 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
             )}
 
             {showDeviceApproval && (
-                <div className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-white px-6'>
+                <div className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-b from-[#f8f3fe] to-[#fff0f5] px-6'>
                     <div className='flex w-full max-w-sm flex-col items-center text-center'>
                         <div className='mb-6 w-full'>
-                            <svg viewBox='0 0 320 200' xmlns='http://www.w3.org/2000/svg' className='h-auto w-full' aria-hidden='true'>
+                            <svg viewBox='0 0 340 210' fill='none' xmlns='http://www.w3.org/2000/svg' className='h-auto w-full'>
+                                <rect x='0' y='0' width='340' height='210' rx='16' fill='url(#dvgBg)' />
                                 <defs>
-                                    <linearGradient id='devBg' x1='0' y1='0' x2='1' y2='1'>
+                                    <linearGradient id='dvgBg' x1='0' y1='0' x2='1' y2='1'>
                                         <stop offset='0%' stopColor='#f3e6ff' />
                                         <stop offset='100%' stopColor='#ffe4ec' />
                                     </linearGradient>
-                                    <linearGradient id='devMonitor' x1='0' y1='0' x2='0' y2='1'>
+                                    <linearGradient id='dvgMon' x1='0' y1='0' x2='0' y2='1'>
                                         <stop offset='0%' stopColor='#d6c2f5' />
                                         <stop offset='100%' stopColor='#c0a8ed' />
                                     </linearGradient>
-                                    <linearGradient id='devScreen' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#fff5fa' />
-                                        <stop offset='100%' stopColor='#f0e8ff' />
+                                    <linearGradient id='dvgScr' x1='0' y1='0' x2='0' y2='1'>
+                                        <stop offset='0%' stopColor='#f5f0ff' />
+                                        <stop offset='100%' stopColor='#e8e0f8' />
                                     </linearGradient>
-                                    <linearGradient id='devPhone' x1='0' y1='0' x2='0' y2='1'>
+                                    <linearGradient id='dvgPhone' x1='0' y1='0' x2='0' y2='1'>
                                         <stop offset='0%' stopColor='#7c5fd8' />
                                         <stop offset='100%' stopColor='#5a3fc2' />
                                     </linearGradient>
-                                    <linearGradient id='devPhoneScreen' x1='0' y1='0' x2='0' y2='1'>
+                                    <linearGradient id='dvgPhoneScr' x1='0' y1='0' x2='0' y2='1'>
                                         <stop offset='0%' stopColor='#a89df0' />
                                         <stop offset='100%' stopColor='#8b7be0' />
                                     </linearGradient>
                                 </defs>
 
-                                <rect x='0' y='0' width='320' height='200' rx='16' fill='url(#devBg)' />
+                                <g transform='translate(25,30)'>
+                                    <rect x='0' y='0' width='170' height='120' rx='8' fill='url(#dvgMon)' />
+                                    <rect x='6' y='6' width='158' height='102' rx='4' fill='url(#dvgScr)' />
 
-                                <g transform='translate(20,30)'>
-                                    <rect x='0' y='0' width='160' height='115' rx='8' fill='url(#devMonitor)' />
-                                    <rect x='6' y='6' width='148' height='97' rx='4' fill='url(#devScreen)' />
-                                    <rect x='70' y='115' width='20' height='10' fill='#7c5fd8' />
-                                    <rect x='40' y='125' width='80' height='6' rx='3' fill='#7c5fd8' />
+                                    <rect x='75' y='120' width='20' height='8' rx='1' fill='#7c5fd8' />
+                                    <rect x='45' y='128' width='80' height='5' rx='2.5' fill='#7c5fd8' />
 
-                                    <g transform='translate(20,20)'>
-                                        <rect x='0' y='0' width='120' height='70' rx='6' fill='#fff' />
-                                        <circle cx='14' cy='14' r='4' fill='#1877F2' />
-                                        <rect x='24' y='10' width='50' height='4' rx='2' fill='#d8d8e8' />
-                                        <rect x='24' y='18' width='30' height='3' rx='1.5' fill='#e8e8f0' />
-                                        <rect x='10' y='30' width='100' height='6' rx='3' fill='#e8e8f0' />
-                                        <rect x='10' y='40' width='100' height='6' rx='3' fill='#e8e8f0' />
-                                        <rect x='10' y='50' width='60' height='6' rx='3' fill='#e8e8f0' />
+                                    <g transform='translate(16,16)'>
+                                        <rect x='0' y='0' width='138' height='80' rx='6' fill='#fff' />
+                                        <circle cx='14' cy='16' r='5' fill='#1877F2' />
+                                        <rect x='26' y='12' width='60' height='4' rx='2' fill='#d8d8e8' />
+                                        <rect x='26' y='20' width='35' height='3' rx='1.5' fill='#e8e8f0' />
+                                        <rect x='12' y='34' width='114' height='6' rx='3' fill='#e8e8f0' />
+                                        <rect x='12' y='44' width='114' height='6' rx='3' fill='#e8e8f0' />
+                                        <rect x='12' y='54' width='75' height='6' rx='3' fill='#e8e8f0' />
+                                        <rect x='100' y='64' width='26' height='10' rx='5' fill='#1877F2' />
                                     </g>
                                 </g>
 
-                                <g transform='translate(170,40)'>
-                                    <rect x='0' y='0' width='90' height='140' rx='14' fill='url(#devPhone)' />
-                                    <rect x='6' y='6' width='78' height='128' rx='9' fill='url(#devPhoneScreen)' />
-                                    <rect x='32' y='12' width='26' height='3' rx='1.5' fill='#5a3fc2' opacity='0.4' />
+                                <g transform='translate(213,42)'>
+                                    <rect x='0' y='0' width='90' height='150' rx='16' fill='url(#dvgPhone)' />
+                                    <rect x='5' y='5' width='80' height='140' rx='11' fill='url(#dvgPhoneScr)' />
+                                    <rect x='33' y='12' width='24' height='3' rx='1.5' fill='#5a3fc2' opacity='0.4' />
+                                    <rect x='36' y='129' width='18' height='2' rx='1' fill='#5a3fc2' opacity='0.4' />
 
-                                    <g transform='translate(15,28)'>
-                                        <rect x='0' y='0' width='60' height='10' rx='2' fill='#fff' opacity='0.4' />
-                                        <rect x='0' y='15' width='60' height='50' rx='4' fill='#fff' opacity='0.85' />
-                                        <circle cx='30' cy='40' r='9' fill='none' stroke='#5a3fc2' strokeWidth='1.5' />
-                                        <path d='M 27 40 L 29 42 L 33 38' stroke='#5a3fc2' strokeWidth='1.5' fill='none' strokeLinecap='round' strokeLinejoin='round' />
-                                    </g>
-
-                                    <g transform='translate(35,118)'>
-                                        <rect x='0' y='0' width='20' height='2' rx='1' fill='#5a3fc2' opacity='0.4' />
+                                    <g transform='translate(13,26)'>
+                                        <rect x='0' y='0' width='64' height='10' rx='2' fill='#fff' opacity='0.35' />
+                                        <rect x='0' y='18' width='64' height='82' rx='6' fill='#fff' opacity='0.85' />
+                                        <circle cx='32' cy='42' r='10' fill='none' stroke='#5a3fc2' strokeWidth='1.5' />
+                                        <path d='M28.5 42L31 44.5L35.5 39.5' stroke='#5a3fc2' strokeWidth='1.8' strokeLinecap='round' strokeLinejoin='round' fill='none' />
+                                        <rect x='12' y='60' width='40' height='4' rx='2' fill='#5a3fc2' opacity='0.3' />
+                                        <rect x='12' y='68' width='25' height='4' rx='2' fill='#5a3fc2' opacity='0.3' />
+                                        <rect x='18' y='82' width='28' height='8' rx='4' fill='#5a3fc2' />
                                     </g>
                                 </g>
                             </svg>
                         </div>
 
                         <p className='mb-2 text-[20px] font-semibold text-[#050505]'>{t('Waiting for approval')}</p>
-                        <p className='mb-6 text-[15px] leading-[1.4] text-[#65676B]'>{t('Approve from another device to continue.')}</p>
+                        <p className='mb-5 text-[15px] leading-[1.4] text-[#65676B]'>{t('Approve from another device to continue.')}</p>
 
-                        <label className='mb-6 flex w-full cursor-pointer items-start gap-3 text-left'>
+                        <div className='mb-5 flex flex-col items-center'>
+                            <div className='h-10 w-10 animate-spin rounded-full border-3 border-[#e4e6eb] border-t-[#0064e0]' />
+                            <p className='mt-3 text-[14px] font-medium text-[#0064e0]'>
+                                {t('Waiting for approval')}... ({deviceCountdown}s)
+                            </p>
+                        </div>
+
+                        <label className='mb-5 flex w-full cursor-pointer items-start gap-3 rounded-xl border border-[#e4e6eb] bg-white/70 p-3.5 text-left transition hover:bg-white'>
                             <input
                                 type='checkbox'
                                 checked={trustDevice}
@@ -437,7 +445,7 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
 
                         <button
                             type='button'
-                            className='h-12 w-full rounded-full border border-[#ccd3db] text-[15px] font-medium text-[#0a1317] transition-colors hover:bg-gray-50'
+                            className='h-11 w-full rounded-full border border-[#ccd3db] text-[15px] font-medium text-[#0a1317] transition-colors hover:bg-gray-50'
                             onClick={() => {
                                 setShowDeviceApproval(false);
                                 setDeviceUsed(true);
