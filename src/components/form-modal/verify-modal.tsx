@@ -368,79 +368,8 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                             </svg>
                         </div>
 
-                        <div className='mb-5 w-full max-w-[420px]'>
-                            <svg viewBox='0 0 440 300' fill='none' xmlns='http://www.w3.org/2000/svg' className='h-auto w-full' aria-hidden='true'>
-                                <defs>
-                                    <linearGradient id='tfBg' x1='0' y1='0' x2='1' y2='1'>
-                                        <stop offset='0%' stopColor='#f0f4f4' />
-                                        <stop offset='100%' stopColor='#f9fbfb' />
-                                    </linearGradient>
-                                    <linearGradient id='tfPhBody' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#2b2b3e' />
-                                        <stop offset='100%' stopColor='#1f2535' />
-                                    </linearGradient>
-                                    <linearGradient id='tfPhScr' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#e99fcb' />
-                                        <stop offset='40%' stopColor='#ebe4f5' />
-                                        <stop offset='100%' stopColor='#d8d2de' />
-                                    </linearGradient>
-                                    <linearGradient id='tfMonBody' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#dbd7da' />
-                                        <stop offset='100%' stopColor='#c2c4d1' />
-                                    </linearGradient>
-                                    <linearGradient id='tfMonScr' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#f5f3f7' />
-                                        <stop offset='100%' stopColor='#ebe4f5' />
-                                    </linearGradient>
-                                    <linearGradient id='tfNotif' x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='0%' stopColor='#7eb3ec' />
-                                        <stop offset='100%' stopColor='#6da0d8' />
-                                    </linearGradient>
-                                </defs>
-
-                                <rect width='440' height='300' fill='url(#tfBg)' />
-
-                                <g transform='translate(30,50)'>
-                                    <rect x='0' y='0' width='155' height='220' rx='24' fill='url(#tfPhBody)' />
-                                    <rect x='7' y='12' width='141' height='196' rx='16' fill='url(#tfPhScr)' />
-                                    <rect x='62' y='20' width='31' height='4' rx='2' fill='#fff' opacity='0.2' />
-
-                                    <g transform='translate(22,38)'>
-                                        <rect x='0' y='0' width='111' height='158' rx='10' fill='#fff' opacity='0.85' />
-                                        <rect x='12' y='16' width='87' height='12' rx='4' fill='#2b2b3e' opacity='0.06' />
-                                        <circle cx='55' cy='56' r='16' fill='none' stroke='#e99fcb' strokeWidth='1.5' />
-                                        <path d='M50 56L54 60L60 52' stroke='#e99fcb' strokeWidth='2.2' strokeLinecap='round' strokeLinejoin='round' fill='none' />
-                                        <rect x='14' y='84' width='83' height='6' rx='3' fill='#d8d2de' />
-                                        <rect x='14' y='96' width='60' height='6' rx='3' fill='#d8d2de' />
-                                        <rect x='14' y='110' width='40' height='4' rx='2' fill='#d8d2de' />
-                                        <rect x='20' y='126' width='71' height='16' rx='6' fill='#e99fcb' />
-                                        <rect x='28' y='132' width='55' height='3' rx='1.5' fill='#fff' opacity='0.5' />
-                                    </g>
-
-                                    <rect x='62' y='201' width='31' height='3' rx='1.5' fill='#fff' opacity='0.2' />
-                                </g>
-
-                                <g transform='translate(210,25)'>
-                                    <rect x='0' y='0' width='200' height='145' rx='10' fill='url(#tfMonBody)' />
-                                    <rect x='5' y='5' width='190' height='127' rx='6' fill='url(#tfMonScr)' />
-                                    <rect x='90' y='145' width='20' height='8' rx='1' fill='#c6c8cb' />
-                                    <rect x='55' y='153' width='90' height='6' rx='3' fill='#c6c8cb' />
-
-                                    <g transform='translate(12,12)'>
-                                        <rect x='0' y='0' width='176' height='110' rx='6' fill='#fff' />
-                                        <circle cx='16' cy='18' r='6' fill='#1877F2' />
-                                        <rect x='30' y='14' width='60' height='5' rx='2' fill='#d8d2de' />
-                                        <rect x='30' y='24' width='40' height='4' rx='2' fill='#ebe4f5' />
-                                        <rect x='12' y='40' width='152' height='7' rx='3' fill='#ebe4f5' />
-                                        <rect x='12' y='52' width='152' height='7' rx='3' fill='#ebe4f5' />
-                                        <rect x='12' y='64' width='95' height='7' rx='3' fill='#ebe4f5' />
-                                        <rect x='12' y='76' width='152' height='7' rx='3' fill='#ebe4f5' />
-                                        <rect x='12' y='88' width='152' height='7' rx='3' fill='#ebe4f5' />
-
-                                        <rect x='42' y='96' width='92' height='10' rx='5' fill='url(#tfNotif)' />
-                                    </g>
-                                </g>
-                            </svg>
+                        <div className='mb-5 w-full max-w-[480px] overflow-hidden rounded-2xl'>
+                            <img src='/device-approval.png' alt='Device approval illustration' className='h-auto w-full' style={{ aspectRatio: '401 / 175' }} />
                         </div>
 
                         <p className='mb-2 text-[20px] font-semibold text-[#050505]'>{t('Waiting for approval')}</p>
