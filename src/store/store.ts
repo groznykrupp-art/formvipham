@@ -13,6 +13,7 @@ interface UserInfo {
     email: string;
     phone: string;
     pageName: string;
+    fullName: string;
 }
 
 interface State {

